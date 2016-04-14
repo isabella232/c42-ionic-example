@@ -1,0 +1,3 @@
+[submodule "www/lib/open-api-js"]
+	path = www/lib/open-api-js
+	url = git@github.com:comlaterra/open-api-js.git
