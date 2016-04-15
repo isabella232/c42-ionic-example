@@ -32,14 +32,13 @@ var c42IonicApp = angular.module('c42-ionic', ['ionic', 'c42-ionic.controllers',
   $stateProvider
 
   // setup an abstract state for the tabs directive
-    .state('tab', {
+  .state('tab', {
     url: '/tab',
     abstract: true,
     templateUrl: 'templates/tabs.html'
   })
 
   // Each tab has its own nav history stack:
-
   .state('tab.home', {
     url: '/home',
     views: {
@@ -49,6 +48,16 @@ var c42IonicApp = angular.module('c42-ionic', ['ionic', 'c42-ionic.controllers',
       }
     }
   })
+  .state('tab.event', {
+    url: '/event/:eventId',
+    views: {
+      'tab-home': {
+        templateUrl: 'templates/event-detail.html',
+        controller: 'HomeCtrl'
+      }
+    }
+  })
+
   .state('tab.interests', {
     url: '/interests',
     views: {
@@ -58,16 +67,6 @@ var c42IonicApp = angular.module('c42-ionic', ['ionic', 'c42-ionic.controllers',
       }
     }
   })
-  .state('tab.chat-detail', {
-    url: '/chats/:chatId',
-    views: {
-      'tab-chats': {
-        templateUrl: 'templates/chat-detail.html',
-        controller: 'ChatDetailCtrl'
-      }
-    }
-  })
-
   .state('tab.account', {
     url: '/account',
     views: {

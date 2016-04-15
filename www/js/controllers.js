@@ -26,8 +26,8 @@ angular.module('c42-ionic.controllers', [])
 
 })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
+.controller('EventDetailCtrl', function($scope, $stateParams) {
+  // $scope.chat = Chats.get($stateParams.chatId);
 })
 
 .controller('AccountCtrl', function($scope) {
