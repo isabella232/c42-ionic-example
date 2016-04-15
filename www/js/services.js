@@ -34,6 +34,43 @@ angular.module('c42-ionic.services', [])
   API = new swaggerAPI(swaggerOptions);
   /* END CONSTRUCTING THE API MAPPING */
 
+  // Used to store in session more the following vars
+  var cached_calendars;
+  var cached_events;
+
+  // Method encharged of actually load the events from the API
+  var _loadEvents = function(callback){
+    // This can be personalisated
+    API.events.getEvents({
+      params: {
+        "include_removed_events": false,
+        "limit": 100,
+        "event_types": "[normal]",
+        "geo_polygons": "[y___Iy%7Bv%5CpiFa~Sb%7DP%7CaIosBxsh@esTuw]]",
+        "from_time": "2016-04-07T22:00:00.000Z",
+        "end_time": "2016-04-08T22:00:39.099Z"
+      },
+      callback: function(resp){
+        // setting some meta data to manage the cached objects
+        resp.last_load = new Date();
+        cached_events = resp;
+        callback.apply(this,arguments);
+      }
+    });
+  };
+
+  // Method encharged of actually load the calendars form the API
+  var _loadCalendars = function(callback){
+    API.calendars.getCalendars({
+      callback: function(resp){
+        // setting some meta data to manage the cached objects
+        resp.last_load = new Date();
+        cached_calendars = resp;
+        callback.apply(this,arguments);
+      }
+    });
+  };
+
   return {
     onReady: function(onReadyUserCallback){
       if(onReadyUserCallback){
@@ -43,70 +80,22 @@ angular.module('c42-ionic.services', [])
       }
     },
     getEvents: function(callback){
-      API.events.getEvents({
-        params: {
-          "include_removed_events": false,
-          "limit": 100,
-          "event_types": "[normal]",
-          "geo_polygons": "[y___Iy%7Bv%5CpiFa~Sb%7DP%7CaIosBxsh@esTuw]]",
-          "from_time": "2016-04-07T22:00:00.000Z",
-          "end_time": "2016-04-08T22:00:39.099Z"
-        },
-        callback: callback
-      });
+      // Since this is an example we only load the events once
+      // @TODO: Add a "forceReload" param to allow the loading even when the cache rules are not accomplished
+      if(cached_events){
+        callback(cached_events);
+      }else{
+        _loadEvents(callback);
+      }
     },
      getCalendars: function(callback){
-       API.calendars.getCalendars({
-         callback: callback
-       });
+       // Since this is an example we only load the events once
+       // @TODO: Add a "forceReload" param to allow the loading even when the cache rules are not accomplished
+       if(cached_calendars){
+         callback(cached_calendars);
+       }else{
+         _loadCalendars(callback);
+       }
      },
   }
-})
-.factory('Interests', function() {
-  // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
-  var chats = [{
-    id: 0,
-    name: 'Ben Sparrow',
-    lastText: 'You on your way?',
-    face: 'img/ben.png'
-  }, {
-    id: 1,
-    name: 'Max Lynx',
-    lastText: 'Hey, it\'s me',
-    face: 'img/max.png'
-  }, {
-    id: 2,
-    name: 'Adam Bradleyson',
-    lastText: 'I should buy a boat',
-    face: 'img/adam.jpg'
-  }, {
-    id: 3,
-    name: 'Perry Governor',
-    lastText: 'Look at my mukluks!',
-    face: 'img/perry.png'
-  }, {
-    id: 4,
-    name: 'Mike Harrington',
-    lastText: 'This is wicked good ice cream.',
-    face: 'img/mike.png'
-  }];
-
-  return {
-    all: function() {
-      return chats;
-    },
-    remove: function(chat) {
-      chats.splice(chats.indexOf(chat), 1);
-    },
-    get: function(chatId) {
-      for (var i = 0; i < chats.length; i++) {
-        if (chats[i].id === parseInt(chatId)) {
-          return chats[i];
-        }
-      }
-      return null;
-    }
-  };
 });
