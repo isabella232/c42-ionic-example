@@ -13,7 +13,7 @@ This repository needs to be cloned `recursively`.
 
 > This is a [Ionic](http://ionicframework.com/) (v1.0) based project. So most of the requirements are the basic Ionic requirements.
 
-> If you run into any issue while the installation, please check our [Troubleshooting]((https://github.com/calendar42/c42-ionic-example/tree/master/troubleshooting.md)).
+> If you run into any issue while the installation, please check our [Troubleshooting](https://github.com/calendar42/c42-ionic-example/tree/master/troubleshooting.md).
 
 ### Prerequisites
 
