@@ -3,9 +3,17 @@ c42-ionic-example
 
 c42-ionic-example is a Web App designed to show how to use Ionic with the [c42](http://site.calendar42.com/) platform getting, showing and acting over the events/calendars of a certain account, filtering on time and geolocation.
 
+## Cloning
+
+This repository needs to be cloned `recursively`.
+
+`git clone --recursive git@github.com:calendar42/c42-ionic-example.git`
+
 ## Running
 
 > This is a [Ionic](http://ionicframework.com/) (v1.0) based project. So most of the requirements are the basic Ionic requirements.
+
+> If you run into any issue while the installation, please check our [Troubleshooting]((https://github.com/calendar42/c42-ionic-example/tree/master/troubleshooting.md)).
 
 ### Prerequisites
 
@@ -29,12 +37,6 @@ Once it is installed is required to install the rest of dependencies. First the 
 
 ```bash
 $ npm install
-```
-
-If you run into any error please try to update your npm:
-
-```bash
-$ npm update npm -g
 ```
 
 Install the bower dependencies.
