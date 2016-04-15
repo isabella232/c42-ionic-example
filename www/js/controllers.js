@@ -14,19 +14,13 @@ angular.module('c42-ionic.controllers', [])
   //
 }])
 
-.controller('InterestsCtrl', function($scope, Interests, c42Api) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  $scope.$on('$ionicView.enter', function(e) {
-    $scope.chats = Interests;
-  });
-
+.controller('InterestsCtrl', function($scope, c42Api) {
+  $scope.calendars = [];
   c42Api.getCalendars(function(resp){
     resp = JSON.parse(resp);
     $scope.$apply(function () {
-        $scope.calendars = resp.data;
+      console.log(resp.data);
+      $scope.calendars = resp.data;
     });
   });
 
