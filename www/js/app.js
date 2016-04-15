@@ -53,7 +53,7 @@ var c42IonicApp = angular.module('c42-ionic', ['ionic', 'c42-ionic.controllers',
     views: {
       'tab-home': {
         templateUrl: 'templates/event-detail.html',
-        controller: 'HomeCtrl'
+        controller: 'EventDetailCtrl'
       }
     }
   })

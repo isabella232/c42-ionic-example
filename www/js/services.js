@@ -70,6 +70,16 @@ angular.module('c42-ionic.services', [])
       }
     });
   };
+  var _loadEventById = function(id, callback){
+    API.events.getEvents({
+      params: {
+        "ids": '['+id+']'
+      },
+      callback: function(resp){
+        callback.apply(this,arguments);
+      }
+    });
+  };
 
   return {
     onReady: function(onReadyUserCallback){
@@ -88,7 +98,7 @@ angular.module('c42-ionic.services', [])
         _loadEvents(callback);
       }
     },
-     getCalendars: function(callback){
+    getCalendars: function(callback){
        // Since this is an example we only load the events once
        // @TODO: Add a "forceReload" param to allow the loading even when the cache rules are not accomplished
        if(cached_calendars){
@@ -97,5 +107,8 @@ angular.module('c42-ionic.services', [])
          _loadCalendars(callback);
        }
      },
-  }
+     getEventById: function(id, callback){
+       _loadEventById(id,callback);
+     }
+  };
 });
