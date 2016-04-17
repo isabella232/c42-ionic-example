@@ -1,7 +1,7 @@
 /*
     EVENTS-MAP VIEW
 */
-[view-title="Home"] .angular-google-map-container, [view-title="Home"] .bar-subheader {
+.discover .angular-google-map-container, .discover .bar-subheader {
   height: 300px;
 }
 /*

@@ -1,10 +1,5 @@
-<ion-view view-title="">
+<ion-view view-title="Event">
   <ion-content>
-        <div class="bar bar-header bar-positive flat">
-            <!-- <button class="button button-icon icon ion-star flat pull-left"></button> -->
-            <h1 class="title">Event</h1>
-            <!-- <button class="button button-icon icon ion-android-search flat pull-right"></button> -->
-        </div>
         <div class="hero has-mask " style="background-image: url({{event.icon}});">
             <div class="location-component" ng-if="!event.icon">
                 <ui-gmap-google-map  center="event.start_location.geo" zoom="17" refresh="true" options="mapOptionsHero">
@@ -51,9 +46,6 @@
                     {{ isItemShown('description') ? 'Less' : 'More' }}
                 </p>
             </ion-item >
-            <!-- the data is not received as correct json: it contains 'u' -->
-            <!-- <i class="icon ion-person-stalker"></i> 42{{event['data.fb_friends']}} 
-            <i class="icon ion-arrow-graph-up-right"></i> 42{{event['data.rel_data']}}  -->
 
             <ion-item class="location-component">
                 <ui-gmap-google-map  center="event.start_location.geo" zoom="18" refresh="true" options="mapOptions">
@@ -70,6 +62,10 @@
                 </div>
             </ion-item>
 
+
+            <!-- the data is not received as correct json: it contains 'u' -->
+            <!-- <i class="icon ion-person-stalker"></i> 42{{event['data.fb_friends']}} 
+            <i class="icon ion-arrow-graph-up-right"></i> 42{{event['data.rel_data']}}  -->
             <ion-list>
                 <a class="item item-avatar waves-effect waves-button waves-dark">
                     <span class="avatar"><i class="icon ion-log-in larger"></i></span>

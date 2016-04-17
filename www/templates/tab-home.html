@@ -1,4 +1,4 @@
-<ion-view view-title="Home">
+<ion-view class="discover" view-title="Discover">
   <div class="map-wrapper" style="position: absolute; top: 0px; width: 100%">
     <ui-gmap-google-map center='mapCongig.center' zoom='mapCongig.zoom'events="events">
       <ui-gmap-marker ng-repeat="event in events" coords="event.start_location.geo" idkey="event.id"></ui-gmap-marker>
