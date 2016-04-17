@@ -86,7 +86,8 @@ angular.module('c42-ionic.services', [])
         "event_types": "[normal]",
         "geo_polygons": "[y___Iy%7Bv%5CpiFa~Sb%7DP%7CaIosBxsh@esTuw]]",
         "from_time": "2016-04-07T22:00:00.000Z",
-        "end_time": "2016-04-08T22:00:39.099Z"
+        "end_time": "2016-04-08T22:00:39.099Z",
+        "order_by": "start"
       },
       callback: function(resp){
         _handleEventResponse(resp, callback);
