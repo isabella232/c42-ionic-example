@@ -51,10 +51,13 @@
                 <ui-gmap-google-map  center="event.start_location.geo" zoom="18" refresh="true" options="mapOptions">
                     <ui-gmap-marker coords="event.start_location.geo" idkey="event.id"></ui-gmap-marker>
                 </ui-gmap-google-map>
+                <button ng-if="mapsUrl" class="button button-small pull-right positive" style="margin-top: -52px;margin-right: 10px;" href="{{mapsUrl}}">
+                    <i class="icon ion-map positive"></i> Route in Maps
+                </button>
                 <div class="item item-text-wrap">
                     <strong>{{event.start_location.address}}</strong>
                     <div class="card-footer text-right">
-                        <i id="{{event.start_location.id}}" class="icon ion-pinpoint positive"></i> Discover more
+                        
                         <div class="pull-left">
                             {{event.start_location.city}}
                         </div>

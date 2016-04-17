@@ -49,7 +49,7 @@ angular.module('c42-ionic.services', [])
         return cached_calendars[c] || c;
       });
       try {
-        e.data = JSON.parse(e.data);  
+        e.data = JSON.parse(e.data);
       } catch (err) {
         e.data = {};
       }

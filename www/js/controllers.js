@@ -56,6 +56,9 @@ angular.module('c42-ionic.controllers', [])
   // BEGIN setting event data
   c42Api.getEventById($stateParams.eventId, function (event) {
     $scope.event = event;
+    if (event.start_location.geo) {
+      $scope.mapsUrl = "comgooglemaps://?daddr="+event.start_location.text;
+    }
   });
   // END setting event data
 }])
