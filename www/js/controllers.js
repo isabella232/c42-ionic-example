@@ -15,14 +15,24 @@ angular.module('c42-ionic.controllers', [])
 }])
 
 .controller('InterestsCtrl', function($scope, c42Api) {
-  $scope.calendars = [];
-  c42Api.getCalendars(function(resp){
-    resp = JSON.parse(resp);
-    $scope.$apply(function () {
-      console.log(resp.data);
-      $scope.calendars = resp.data;
+  var setScope = function () {
+    $scope.calendars = [];
+    c42Api.getCalendars(function(resp){
+      resp = JSON.parse(resp);
+      $scope.$apply(function () {
+        console.log(resp.data);
+        $scope.calendars = resp.data;
+      });
     });
-  });
+  };
+
+  try {
+    setScope();
+  } catch(e) {
+    c42Api.onReady(function(){
+      setScope();
+    });
+  }
 
 })
 
