@@ -15,13 +15,19 @@ angular.module('c42-ionic.controllers', [])
 }])
 
 .controller('InterestsCtrl', function($scope, c42Api) {
+  $scope.calendars = [];
+  $scope.data = {
+    badgeCount : 1
+  };
   var setScope = function () {
-    $scope.calendars = [];
     c42Api.getCalendars(function(resp){
       resp = JSON.parse(resp);
       $scope.$apply(function () {
-        console.log(resp.data);
         $scope.calendars = resp.data;
+        // Fixme Not updating?
+        $scope.data = {
+          badgeCount : resp.data.length
+        };
       });
     });
   };

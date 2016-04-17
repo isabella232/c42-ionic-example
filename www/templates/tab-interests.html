@@ -1,11 +1,14 @@
-<ion-view view-title="Interests">
+<ion-view view-title="Categories">
   <ion-content>
-    <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-left calendar-item" ng-repeat="calendar in calendars" type="item-text-wrap" href="#/tab/home/{{calendar.id}}">
-        <i class="icon ion-chevron-left icon-accessory"></i>
-        <div class="calendar-color" style="background-color:{{calendar.color}}"></div>
-        <h2>{{calendar.name}}</h2>
-      </ion-item>
+    <ion-list class"list condensed-space no-padding">
+      	<ion-item style="background-color:{{calendar.color}};" class="dark-bg" ng-repeat="calendar in calendars">
+    		
+        	<ion-checkbox ng-model="isChecked" class="checkbox-light">
+        	<h2>
+            	{{calendar.name}}
+        	</h2>
+        	</ion-checkbox>
+  		</ion-item>
     </ion-list>
   </ion-content>
 </ion-view>

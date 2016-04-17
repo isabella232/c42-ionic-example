@@ -6,14 +6,15 @@ navigation history that also transitions its views in and out.
 
 <ion-tabs class="tabs-icon-top tabs-color-active-positive">
 
-  <!-- Map Tab -->
-  <ion-tab title="Map" icon-off="ion-ios-location-outline" icon-on="ion-ios-location" href="#/tab/home">
+  <!-- Discover Tab -->
+  <ion-tab title="Discover" icon-off="ion-map" icon-on="ion-map" href="#/tab/home">
     <ion-nav-view name="tab-home"></ion-nav-view>
   </ion-tab>
 
-  <!-- Interests Tab -->
-  <ion-tab title="Interests" icon-off="ion-ios-keypad-outline" icon-on="ion-ios-keypad" href="#/tab/interests">
+  <!-- Catgories Tab -->
+  <ion-tab title="Your categories" icon-off="ion-ios-keypad-outline" badge="data.badgeCount" ng-controller="InterestsCtrl" badge-style="badge-assertive" icon-on="ion-ios-keypad" href="#/tab/interests">
     <ion-nav-view name="tab-interests"></ion-nav-view>
   </ion-tab>
+
 
 </ion-tabs>
