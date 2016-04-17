@@ -78,6 +78,7 @@ angular.module('c42-ionic.controllers', [])
       $scope.$apply(function () {
         var eventData = resp.data[0];
         eventData.__calendars = eventData.calendar_ids;
+        eventData.data = JSON.parse(eventData.data);
         $scope.event = eventData;
         c42Api.getCalendarByIds(eventData.calendar_ids, function (resp) {
           resp = JSON.parse(resp);
