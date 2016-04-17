@@ -60,8 +60,13 @@ angular.module('c42-ionic.controllers', [])
     c42Api.getEventById($stateParams.eventId, function (resp) {
       resp = JSON.parse(resp);
       $scope.$apply(function () {
-        console.log(resp.data);
-        $scope.event = resp.data[0];
+        var eventData = resp.data[0];
+        eventData.__calendars = eventData.calendar_ids;
+        $scope.event = eventData;
+        c42Api.getCalendarByIds(eventData.calendar_ids, function (resp) {
+          resp = JSON.parse(resp);
+          $scope.event.__calendars = resp.data;
+        });
       });
     });
   };

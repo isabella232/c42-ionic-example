@@ -23,8 +23,13 @@
         </div>
         <div class="content item-text-wrap">
         </div>
-        <div class="content">
+
         <ion-list>
+            <ion-item class="item item-text-wrap">
+              <h3 class="calendar-tag" ng-repeat="calendar in event.__calendars" style="background-color:{{calendar.color}};">
+                  {{calendar.name}}
+              </h3>
+            </ion-item>
             <ion-item class="item item-text-wrap datetime-component">
                 <div>
                     <i class="icon ion-log-in stable"></i> <strong>{{event.start | date:'EEEE MM/dd/yyyy @ HH:mm' : event.start_timezone}}</strong>

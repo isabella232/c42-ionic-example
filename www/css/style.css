@@ -38,7 +38,11 @@
   font-size: 56px;
 }
 
-
+.calendar-tag {
+  display: inline;
+  color:white;
+  padding: 2px 4px;
+}
 
 /* Item expanding */
 .item-expand {

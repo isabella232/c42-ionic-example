@@ -80,6 +80,16 @@ angular.module('c42-ionic.services', [])
       }
     });
   };
+  var _loadCalendarByIds = function(ids, callback){
+    API.calendars.getCalendars({
+      params: {
+        "ids": '['+ids+']'
+      },
+      callback: function(resp){
+        callback.apply(this,arguments);
+      }
+    });
+  };
 
   return {
     onReady: function(onReadyUserCallback){
@@ -109,6 +119,9 @@ angular.module('c42-ionic.services', [])
      },
      getEventById: function(id, callback){
        _loadEventById(id,callback);
+     },
+     getCalendarByIds: function(ids, callback){
+       _loadCalendarByIds(ids,callback);
      }
   };
 });
