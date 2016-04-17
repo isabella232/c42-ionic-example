@@ -6,6 +6,7 @@
   </div>
   <ion-content style="top: 300px !important;">
       <ion-list style="top: 160px !important;">
+        <ion-spinner ng-if="!events" style="text-align:center;margin: auto 0;display: block;" icon="dots" class="spinner-dark"></ion-spinner>
         <ion-item ng-repeat="event in events" class="item item-avatar waves-effect waves-button waves-dark" type="item-text-wrap" href="#/tab/event/{{event.id}}">
           <span class="avatar text-center">{{event.start | date:'@ HH:mm' : event.start_timezone}}</span>
           <h2>{{event.title}}</h2>
