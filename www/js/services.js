@@ -62,6 +62,9 @@ angular.module('c42-ionic.services', [])
   // Method encharged of actually load the calendars form the API
   var _loadCalendars = function(callback){
     API.calendars.getCalendars({
+      params: {
+        "limit": 20
+      },
       callback: function(resp){
         // setting some meta data to manage the cached objects
         resp.last_load = new Date();
