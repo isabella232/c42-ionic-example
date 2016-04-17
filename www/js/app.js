@@ -24,7 +24,6 @@ var c42IonicApp = angular.module('c42-ionic', ['ionic', 'c42-ionic.controllers',
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
-
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
@@ -35,7 +34,12 @@ var c42IonicApp = angular.module('c42-ionic', ['ionic', 'c42-ionic.controllers',
   .state('tab', {
     url: '/tab',
     abstract: true,
-    templateUrl: 'templates/tabs.html'
+    templateUrl: 'templates/tabs.html',
+    resolve: {
+      promiseObj: function (c42Api) {
+        return c42Api.storeReady();
+      },
+    }
   })
 
   // Each tab has its own nav history stack:

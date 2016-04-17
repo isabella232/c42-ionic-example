@@ -3,15 +3,11 @@ angular.module('c42-ionic.controllers', [])
 .controller('HomeCtrl', ['$scope', 'config', 'local_settings', 'c42Api', function($scope,config, local_settings, c42Api) {
   $scope.mapCongig = config.initialConfig.mapDefaults;
   // When the C42API is loaded we recover the events and apply to the scope
-  c42Api.onReady(function(){
-    c42Api.getEvents(function(resp){
-      resp = JSON.parse(resp);
-      $scope.$apply(function () {
-          $scope.events = resp.data;
-      });
+  c42Api.getEvents(function(events){
+    $scope.$apply(function () {
+        $scope.events = events;
     });
   });
-  //
 }])
 
 .controller('InterestsCtrl', function($scope, c42Api) {
@@ -19,27 +15,13 @@ angular.module('c42-ionic.controllers', [])
   $scope.data = {
     badgeCount : 1
   };
-  var setScope = function () {
-    c42Api.getCalendars(function(resp){
-      resp = JSON.parse(resp);
-      $scope.$apply(function () {
-        $scope.calendars = resp.data;
-        // Fixme Not updating?
-        $scope.data = {
-          badgeCount : resp.data.length
-        };
-      });
-    });
-  };
-
-  try {
-    setScope();
-  } catch(e) {
-    c42Api.onReady(function(){
-      setScope();
-    });
-  }
-
+  c42Api.getCalendars(function(calendars){
+    $scope.calendars = calendars;
+    // Fixme Not updating?
+    $scope.data = {
+      badgeCount : calendars.length
+    };
+  });
 })
 
 .controller('EventDetailCtrl', ['$scope', '$stateParams', 'c42Api', function($scope, $stateParams, c42Api) {
@@ -73,18 +55,8 @@ angular.module('c42-ionic.controllers', [])
 
   // BEGIN setting event data
   var setScope = function () {
-    c42Api.getEventById($stateParams.eventId, function (resp) {
-      resp = JSON.parse(resp);
-      $scope.$apply(function () {
-        var eventData = resp.data[0];
-        eventData.__calendars = eventData.calendar_ids;
-        eventData.data = JSON.parse(eventData.data);
-        $scope.event = eventData;
-        c42Api.getCalendarByIds(eventData.calendar_ids, function (resp) {
-          resp = JSON.parse(resp);
-          $scope.event.__calendars = resp.data;
-        });
-      });
+    c42Api.getEventById($stateParams.eventId, function (event) {
+      $scope.event = event;
     });
   };
   // @edmon: I would like to have this function to work when I visit the page directly AND when from the app

@@ -35,8 +35,46 @@ angular.module('c42-ionic.services', [])
   /* END CONSTRUCTING THE API MAPPING */
 
   // Used to store in session more the following vars
-  var cached_calendars;
-  var cached_events;
+  var cached_calendars = {};
+  var cached_events = {};
+
+  var _handleEventResponse = function (resp, callback, returnFirst) {
+    // setting some meta data to manage the cached objects
+    resp.last_load = new Date();
+    resp = JSON.parse(resp);
+    resp = resp.data;
+    // set up cache
+    resp.forEach(function(e){
+      e.__calendars = e.calendar_ids.map(function(c){
+        return cached_calendars[c] || c;
+      });
+      try {
+        e.data = JSON.parse(e.data);  
+      } catch (err) {
+        e.data = {};
+      }
+      cached_events[e.id] = e;
+    });
+    if (returnFirst) {
+      resp = resp[0];
+    }
+    callback.apply(this,arguments);
+  };
+
+  var _handleCalendarResponse = function (resp, callback, returnFirst) {
+    // setting some meta data to manage the cached objects
+    resp.last_load = new Date();
+    resp = JSON.parse(resp);
+    resp = resp.data;
+    // set up cache
+    resp.forEach(function(e){
+      cached_calendars[e.id] = e;
+    });
+    if (returnFirst) {
+      resp = resp[0];
+    }
+    callback.apply(this,arguments);
+  };
 
   // Method encharged of actually load the events from the API
   var _loadEvents = function(callback){
@@ -51,10 +89,17 @@ angular.module('c42-ionic.services', [])
         "end_time": "2016-04-08T22:00:39.099Z"
       },
       callback: function(resp){
-        // setting some meta data to manage the cached objects
-        resp.last_load = new Date();
-        cached_events = resp;
-        callback.apply(this,arguments);
+        _handleEventResponse(resp, callback);
+      }
+    });
+  };
+  var _loadEventById = function(id, callback){
+    API.events.getEvents({
+      params: {
+        "ids": '['+id+']'
+      },
+      callback: function(resp){
+        _handleEventResponse(resp, callback, true);
       }
     });
   };
@@ -66,20 +111,7 @@ angular.module('c42-ionic.services', [])
         "limit": 20
       },
       callback: function(resp){
-        // setting some meta data to manage the cached objects
-        resp.last_load = new Date();
-        cached_calendars = resp;
-        callback.apply(this,arguments);
-      }
-    });
-  };
-  var _loadEventById = function(id, callback){
-    API.events.getEvents({
-      params: {
-        "ids": '['+id+']'
-      },
-      callback: function(resp){
-        callback.apply(this,arguments);
+        _handleCalendarResponse(resp, callback);
       }
     });
   };
@@ -95,6 +127,14 @@ angular.module('c42-ionic.services', [])
   };
 
   return {
+    storeReady: function () {
+      var self = this;
+      return new Promise(function(resolve, reject) {
+        self.onReady(function (){
+          self.getCalendars(resolve);
+        });
+      });
+    },
     onReady: function(onReadyUserCallback){
       if(onReadyUserCallback){
         defaultOnReady = function(){
@@ -103,25 +143,23 @@ angular.module('c42-ionic.services', [])
       }
     },
     getEvents: function(callback){
-      // Since this is an example we only load the events once
-      // @TODO: Add a "forceReload" param to allow the loading even when the cache rules are not accomplished
-      if(cached_events){
-        callback(cached_events);
-      }else{
-        _loadEvents(callback);
-      }
+      _loadEvents(callback);
     },
     getCalendars: function(callback){
-       // Since this is an example we only load the events once
        // @TODO: Add a "forceReload" param to allow the loading even when the cache rules are not accomplished
-       if(cached_calendars){
-         callback(cached_calendars);
+       var calendars = Object.keys(cached_calendars).map(function (key) {return cached_calendars[key];});
+       if(calendars.length){
+         callback(calendars);
        }else{
          _loadCalendars(callback);
        }
      },
      getEventById: function(id, callback){
-       _loadEventById(id,callback);
+      if (cached_events[id]) {
+        callback(cached_events[id]);
+      } else {
+        _loadEventById(id,callback);
+      }
      },
      getCalendarByIds: function(ids, callback){
        _loadCalendarByIds(ids,callback);
