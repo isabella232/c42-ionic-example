@@ -81,9 +81,9 @@ var c42IonicApp = angular.module('c42-ionic', ['ionic', 'c42-ionic.controllers',
   $urlRouterProvider.otherwise('/tab/home');
 
 })
-// .config(function(uiGmapGoogleMapApiProvider, local_settings) {
-//     uiGmapGoogleMapApiProvider.configure({
-//         key: local_settings.googleMapsAPIKey,
-//         libraries: 'weather,geometry,visualization'
-//     });
-// });
+.config(function(uiGmapGoogleMapApiProvider, local_settings) {
+    uiGmapGoogleMapApiProvider.configure({
+        key: local_settings.googleMapsAPIKey,
+        libraries: 'weather,geometry,visualization'
+    });
+});

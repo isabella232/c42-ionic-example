@@ -27,7 +27,35 @@ angular.module('c42-ionic.controllers', [])
 })
 
 .controller('EventDetailCtrl', ['$scope', '$stateParams', 'c42Api', function($scope, $stateParams, c42Api) {
-  $scope.mapOptions ={disableDefaultUI:true, tilt:45};
+  // Map Options
+  $scope.mapOptions ={
+    disableDefaultUI:true,
+    panControl: false,
+    draggable: false
+  };
+
+  $scope.mapOptionsHero ={
+    disableDefaultUI:true,
+    tilt:45,
+    panControl: false,
+    draggable: false,
+    mapTypeId: google.maps.MapTypeId.SATELLITE
+  };
+
+  // toggling items
+  $scope.toggleItem= function(item) {
+    if ($scope.isItemShown(item)) {
+      $scope.shownItem = null;
+    } else {
+      $scope.shownItem = item;
+    }
+  };
+  $scope.isItemShown = function(item) {
+    return $scope.shownItem === item;
+  };
+
+
+  // BEGIN setting event data
   var setScope = function () {
     c42Api.getEventById($stateParams.eventId, function (resp) {
       resp = JSON.parse(resp);
@@ -46,7 +74,9 @@ angular.module('c42-ionic.controllers', [])
       setScope();
     });
   }
+  // END setting event data
 }])
+
 
 .controller('AccountCtrl', function($scope) {
   $scope.settings = {
