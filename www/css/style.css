@@ -1,7 +1,7 @@
 /*
     EVENTS-MAP VIEW
 */
-.angular-google-map-container, .bar-subheader {
+[view-title="Home"] .angular-google-map-container, [view-title="Home"] .bar-subheader {
   height: 300px;
 }
 /*
@@ -26,3 +26,8 @@
 /*
     END CALENDARS VIEW
 */
+
+
+.location-component .angular-google-map-container {
+  height: 200px;
+}

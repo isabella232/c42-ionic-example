@@ -1,6 +1,62 @@
 <ion-view view-title="">
-  <ion-content class="padding">
-    <h1>{{event.title}}</h1>
-    {{event.description}}
+  <ion-content>
+        <div class="bar bar-header bar-positive flat">
+            <!-- <button class="button button-icon icon ion-star flat pull-left"></button> -->
+            <h1 class="title">Event</h1>
+            <!-- <button class="button button-icon icon ion-android-search flat pull-right"></button> -->
+        </div>
+        <div class="hero has-mask " style="background-image: url('http://www.shopswindows.com/wp-content/uploads/2014/12/insidethemelkweg.jpg');">
+            <div class="content">
+                <button class="button button-large button-clear flat waves-effect waves-button waves-light icon ion-heart pull-right text-white"></button>
+                <button class="button button-large button-clear flat waves-effect waves-button waves-light icon ion-images pull-right text-white"></button>
+                <button class="button button-large button-clear flat waves-effect waves-button waves-light icon ion-map pull-right text-white"></button>
+            </div>
+        </div>
+        <div class="mid-bar dark-bg z1 padding">
+            <h3>{{event.title}}</h3>
+            <!-- the data is not received as correct json: it contains 'u' -->
+            <p>
+                <i class="icon ion-person-stalker"></i> 42{{event['data.fb_friends']}} 
+                <i class="icon ion-arrow-graph-up-right"></i> 42{{event['data.rel_data']}} 
+            </p>
+        </div>
+        <div class="content double-padding">
+            <h4 class="positive">Description</h4>
+            <p class="text-muted">
+                {{event.description}}
+            </p>
+            <h3 class="outline padding balanced inline img-rounded">4.2</h3>
+       </div>
+
+        <div class="location-component">
+            <ui-gmap-google-map  center="event.start_location.geo" zoom="18" refresh="true" options="mapOptions">
+                <ui-gmap-marker coords="event.start_location.geo" idkey="event.id"></ui-gmap-marker>
+            </ui-gmap-google-map>
+            <div class="item item-text-wrap">
+                <strong>{{event.start_location.address}}</strong>
+                <div class="card-footer text-right">
+                    <i id="{{event.start_location.id}}" class="icon ion-pinpoint positive"></i> Discover more
+                    <div class="pull-left">
+                        {{event.start_location.city}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
   </ion-content>
 </ion-view>
+
+<!-- 
+"start_location": {
+        "id": "5d0b459a9812f5de63010deb395120121acf4947",
+        "text": "Lijnbaansgracht 236-241, 1017, Amsterdam",
+        "address": "Lijnbaansgracht 236-241",
+        "postcode": "1017",
+        "city": "Amsterdam",
+        "geo": {
+          "latitude": 52.364725,
+          "longitude": 4.8818803
+        },
+        "labels": []
+      }, -->

@@ -27,6 +27,7 @@ angular.module('c42-ionic.controllers', [])
 })
 
 .controller('EventDetailCtrl', ['$scope', '$stateParams', 'c42Api', function($scope, $stateParams, c42Api) {
+  $scope.mapOptions ={disableDefaultUI:true, tilt:45};
   var setScope = function () {
     c42Api.getEventById($stateParams.eventId, function (resp) {
       resp = JSON.parse(resp);
