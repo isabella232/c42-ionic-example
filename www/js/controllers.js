@@ -1,6 +1,6 @@
 angular.module('c42-ionic.controllers', [])
 
-.controller('HomeCtrl', ['$scope', 'config', 'local_settings', 'c42Api', function($scope,config, local_settings, c42Api) {
+.controller('HomeCtrl', ['$scope', 'config', 'local_settings', 'c42Api','calendarFilter', function($scope,config, local_settings, c42Api, calendarFilter) {
   $scope.mapCongig = config.initialConfig.mapDefaults;
   // When the C42API is loaded we recover the events and apply to the scope
   c42Api.getEvents(function(events){
@@ -8,9 +8,24 @@ angular.module('c42-ionic.controllers', [])
         $scope.events = events;
     });
   });
+
+  $scope.$on('$ionicView.enter', function() {
+    if($scope.events){
+      var filters = calendarFilter.getFilters();
+      $scope.events.forEach(function(event,idx, eventsList){
+        if(event.__calendars.length && filters.length){
+          eventsList[idx].filtererdOut = event.__calendars.some(function(calendar){
+            return !calendarFilter.inFilter(calendar.id);
+          });
+        }else{
+          eventsList[idx].filtererdOut = false;
+        }
+      });
+    }
+  });
 }])
 
-.controller('InterestsCtrl', function($scope, c42Api) {
+.controller('InterestsCtrl', function($scope, c42Api, calendarFilter) {
   $scope.calendars = [];
   $scope.data = {
     badgeCount : 1
@@ -21,6 +36,14 @@ angular.module('c42-ionic.controllers', [])
       badgeCount : calendars.length
     };
   });
+
+  $scope.saveFilter = function(calendar_id){
+    if(this.isChecked){
+      calendarFilter.addFilter(calendar_id);
+    }else{
+      calendarFilter.removeFilter(calendar_id);
+    }
+  };
 })
 
 .controller('EventDetailCtrl', ['$scope', '$stateParams', 'c42Api', function($scope, $stateParams, c42Api) {

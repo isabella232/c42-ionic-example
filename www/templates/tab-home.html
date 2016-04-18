@@ -1,4 +1,4 @@
-<ion-view class="discover" view-title="Discover">
+<ion-view class="discover" view-title="Discover" ng-init="initHome()">
   <div class="map-wrapper" style="position: absolute; top: 0px; width: 100%">
     <ui-gmap-google-map center='mapCongig.center' zoom='mapCongig.zoom'events="events">
       <ui-gmap-marker ng-repeat="event in events" coords="event.start_location.geo" idkey="event.id"></ui-gmap-marker>
@@ -7,7 +7,8 @@
   <ion-content style="top: 300px !important;">
       <ion-list style="top: 160px !important;">
         <ion-spinner ng-if="!events" style="text-align:center;margin: auto 0;display: block;" icon="dots" class="spinner-dark"></ion-spinner>
-        <ion-item ng-repeat="event in events | orderBy:'title'" class="item item-avatar waves-effect waves-button waves-dark" type="item-text-wrap" href="#/tab/event/{{event.id}}">
+
+        <ion-item ng-repeat="event in events | orderBy:'title' | filter:{filtererdOut:false}" class="item item-avatar waves-effect waves-button waves-dark" type="item-text-wrap" href="#/tab/event/{{event.id}}">
           <span class="avatar text-center">{{event.start | date:'@ HH:mm' : event.start_timezone}}</span>
           <h2>{{event.title}}</h2>
           <h3 class="calendar-tag" ng-repeat="calendar in event.__calendars" style="background-color:{{calendar.color}};">

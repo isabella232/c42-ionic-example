@@ -48,7 +48,7 @@ angular.module('c42-ionic.services', [])
   var _handleEventResponse = function (resp, callback, returnFirst) {
     /**
       This function should handle all the API calls that return events
-      
+
       It will:
       - parse the response
       - map the .calendar_ids to calendar objects in __calendars
@@ -62,12 +62,13 @@ angular.module('c42-ionic.services', [])
 
     resp = JSON.parse(resp);
     resp = resp.data;
-    
+
     // set up cache
     resp.forEach(function(event){
       event.__calendars = event.calendar_ids.map(function(cal){
         return cached_calendars[cal] || cal;
       });
+      event.filtererdOut = false;
       try {
         event.data = JSON.parse(event.data);
       } catch (err) {
@@ -86,7 +87,7 @@ angular.module('c42-ionic.services', [])
   var _handleCalendarResponse = function (resp, callback, returnFirst) {
     /**
       This function should handle all the API calls that return calendars
-      
+
       It will:
       - parse the response
       - update the cached_calendars
@@ -201,5 +202,32 @@ angular.module('c42-ionic.services', [])
         _loadEventById(id,callback);
       }
      }
+  };
+})
+/* Will keep the user selected filters */
+.factory('calendarFilter', function(local_settings) {
+  // appliedFilters
+  var filterList = [];
+  return {
+    // Returns true if the selected calendar is in the filter
+    inFilter: function(calendarId){
+      return filterList.indexOf(calendarId) !== -1;
+    },
+    // Adds a new id to the filters list
+    addFilter: function(calendarId){
+      if(!this.inFilter(calendarId)){
+        filterList.push(calendarId);
+      }
+    },
+    // Removes the calendarId from the filters list
+    removeFilter: function(){
+      if(this.inFilter(calendarId)){
+        filterList.splice(filterList.indexOf(calendarId), 1);
+      }
+    },
+    // Returns the list of filters
+    getFilters: function(){
+      return filterList;
+    }
   };
 });

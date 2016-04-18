@@ -2,8 +2,7 @@
   <ion-content>
     <ion-list class"list condensed-space no-padding">
       	<ion-item style="background-color:{{calendar.color}};" class="dark-bg" ng-repeat="calendar in calendars">
-    		
-        	<ion-checkbox ng-model="isChecked" class="checkbox-light">
+        	<ion-checkbox ng-model="isChecked" class="checkbox-light" ng-change="saveFilter(calendar.id)">
         	<h2>
             	{{calendar.name}}
         	</h2>
