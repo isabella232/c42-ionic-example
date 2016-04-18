@@ -56,7 +56,10 @@ angular.module('c42-ionic.controllers', [])
   c42Api.getEventById($stateParams.eventId, function (event) {
     $scope.event = event;
     if (event.start_location.geo) {
-      $scope.mapsUrl = "comgooglemaps://?daddr="+event.start_location.text;
+      // @todo: this has actually not been tested on any device yet, we might need to add cordova-plugin-inappbrowser
+      // @todo: a different link should be called depending on whether you're on Android or iOS
+      //        - https://gist.github.com/mrzmyr/977fc7d8bee58db9d96f
+      $scope.mapsUrl = "comgooglemaps://?daddr="+event.start_location.text; // Android
     }
   });
   // END setting event data
