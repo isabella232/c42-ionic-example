@@ -220,7 +220,7 @@ angular.module('c42-ionic.services', [])
       }
     },
     // Removes the calendarId from the filters list
-    removeFilter: function(){
+    removeFilter: function(calendarId){
       if(this.inFilter(calendarId)){
         filterList.splice(filterList.indexOf(calendarId), 1);
       }
