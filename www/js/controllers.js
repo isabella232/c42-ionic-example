@@ -8,7 +8,8 @@ angular.module('c42-ionic.controllers', [])
         $scope.events = events;
     });
   });
-
+  // @TODO: Add this to the resolve in the way that is filtered before of being rendered
+  // @TODO: Get it form the BE
   $scope.$on('$ionicView.enter', function() {
     if($scope.events){
       var filters = calendarFilter.getFilters();
