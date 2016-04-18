@@ -35,22 +35,34 @@ angular.module('c42-ionic.services', [])
   /* END CONSTRUCTING THE API MAPPING */
 
   /*
-    Cache of items 
+    CACHE OF ITEMS
     Used to store in session more the following vars.
     Will be filled like:
     cached_items = {
       "item.id": <item>,
     }
   */
-
   var cached_calendars = {};
   var cached_events = {};
 
   var _handleEventResponse = function (resp, callback, returnFirst) {
-    // setting some meta data to manage the cached objects
-    resp.last_load = new Date();
+    /**
+      This function should handle all the API calls that return events
+      
+      It will:
+      - parse the response
+      - map the .calendar_ids to calendar objects in __calendars
+      - try to JSON parse the .data field
+      - update the cached_events
+      - call the provided callback
+
+      Setting returnFirst to true will make sure the callback is called with
+      an event object instead of with an array of events.
+    */
+
     resp = JSON.parse(resp);
     resp = resp.data;
+    
     // set up cache
     resp.forEach(function(event){
       event.__calendars = event.calendar_ids.map(function(cal){
@@ -63,25 +75,40 @@ angular.module('c42-ionic.services', [])
       }
       cached_events[event.id] = event;
     });
+
     if (returnFirst) {
       resp = resp[0];
     }
+
     callback.apply(this,arguments);
   };
 
   var _handleCalendarResponse = function (resp, callback, returnFirst) {
-    // setting some meta data to manage the cached objects
-    resp.last_load = new Date();
+    /**
+      This function should handle all the API calls that return calendars
+      
+      It will:
+      - parse the response
+      - update the cached_calendars
+      - call the provided callback
+
+      Setting returnFirst to true will make sure the callback is called with
+      a calendar object instead of with an array of calendars.
+    */
+
     resp = JSON.parse(resp);
     resp = resp.data;
+
     // set up cache
     resp.forEach(function(calendar){
       cached_calendars[calendar.id] = calendar;
     });
+
     // The C42 API always returns an array, but sometimes you just want to get 1 item (like, get by id)
     if (returnFirst) {
       resp = resp[0];
     }
+
     callback.apply(this,arguments);
   };
 
@@ -103,13 +130,14 @@ angular.module('c42-ionic.services', [])
       }
     });
   };
+
   var _loadEventById = function(id, callback){
     API.events.getEvents({
       params: {
         "ids": '['+id+']'
       },
       callback: function(resp){
-        _handleEventResponse(resp, callback, true);
+        _handleEventResponse(resp, callback, true); // true in order to return single event object
       }
     });
   };
@@ -122,16 +150,6 @@ angular.module('c42-ionic.services', [])
       },
       callback: function(resp){
         _handleCalendarResponse(resp, callback);
-      }
-    });
-  };
-  var _loadCalendarByIds = function(ids, callback){
-    API.calendars.getCalendars({
-      params: {
-        "ids": '['+ids+']'
-      },
-      callback: function(resp){
-        callback.apply(this,arguments);
       }
     });
   };
@@ -157,7 +175,12 @@ angular.module('c42-ionic.services', [])
       _loadEvents(callback);
     },
     getCalendars: function(callback){
-       // @TODO: Add a "forceReload" param to allow the loading even when the cache rules are not accomplished
+      /*
+        Gets all the calendars
+        For now will only get them once from the API, after that from the cache
+
+        @TODO: Add a "forceReload" param to allow the loading even when the cache rules are not accomplished
+      */
        var calendars = Object.keys(cached_calendars).map(function (key) {return cached_calendars[key];});
        if(calendars.length){
          callback(calendars);
@@ -166,14 +189,17 @@ angular.module('c42-ionic.services', [])
        }
      },
      getEventById: function(id, callback){
+      /*
+        Gets an event
+        For now will only get an event once from the API, after that from the cache
+
+        @TODO: Add a "forceReload" param to allow the loading even when the cache rules are not accomplished
+      */
       if (cached_events[id]) {
         callback(cached_events[id]);
       } else {
         _loadEventById(id,callback);
       }
-     },
-     getCalendarByIds: function(ids, callback){
-       _loadCalendarByIds(ids,callback);
      }
   };
 });
