@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'c42-ionic.services' is found in services.js
 // 'c42-ionic.controllers' is found in controllers.js
-var c42IonicApp = angular.module('c42-ionic', ['ionic', 'c42-ionic.controllers', 'c42-ionic.services','ionic-material','uiGmapgoogle-maps'])
+var c42IonicApp = angular.module('c42-ionic', ['ionic', 'c42-ionic.controllers', 'c42-ionic.services','ionic-material','uiGmapgoogle-maps', 'angularMoment'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

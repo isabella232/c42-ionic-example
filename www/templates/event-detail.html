@@ -33,7 +33,10 @@
                     <i class="icon ion-log-out stable"></i> <strong>{{event.end | date:'EEEE MM/dd/yyyy @ HH:mm' : event.end_timezone}}</strong>
                 </div>
                 <div>
-                    <i class="icon ion-clock stable"></i> <strong>1 hour</strong>
+                    <i class="icon ion-clock stable"></i> 
+                    <strong>
+                        {{event.end | amDifference : event.start : 'hours' }} hours
+                    </strong>
                 </div>
             </ion-item>
 
