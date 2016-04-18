@@ -7,7 +7,9 @@
                 </ui-gmap-google-map>
             </div>
             <div class="content">
-                <button class="button button-large button-clear flat waves-effect waves-button waves-light icon ion-heart pull-right text-white"></button>
+                <button class="button button-large button-clear flat waves-effect waves-button waves-light icon ion-heart pull-right" 
+                        ng-class="{'button-energized': attending, 'off': !attending }"
+                        ng-click="changeAttending()"></button>
             </div>
         </div>
         <div class="mid-bar dark-bg z1 padding">
@@ -33,7 +35,10 @@
                     <i class="icon ion-log-out stable"></i> <strong>{{event.end | date:'EEEE MM/dd/yyyy @ HH:mm' : event.end_timezone}}</strong>
                 </div>
                 <div>
-                    <i class="icon ion-clock stable"></i> <strong>1 hour</strong>
+                    <i class="icon ion-clock stable"></i> 
+                    <strong>
+                        {{event.end | amDifference : event.start : 'hours' }} hours
+                    </strong>
                 </div>
             </ion-item>
 

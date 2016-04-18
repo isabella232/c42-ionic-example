@@ -1,13 +1,18 @@
 angular.module('c42-ionic.controllers', [])
 
 .controller('HomeCtrl', ['$scope', 'config', 'local_settings', 'c42Api','calendarFilter', function($scope,config, local_settings, c42Api, calendarFilter) {
-  $scope.mapCongig = config.initialConfig.mapDefaults;
-  // When the C42API is loaded we recover the events and apply to the scope
-  c42Api.getEvents(function(events){
-    $scope.$apply(function () {
-        $scope.events = events;
+  var _setEvents = function (callback) {
+    c42Api.getEvents(function(events){
+      $scope.$apply(function () {
+          $scope.events = events;
+          return callback ? callback(events) : events;
+      });
     });
-  });
+  };
+
+  $scope.mapCongig = config.initialConfig.mapDefaults;
+  _setEvents();
+
   // @TODO: Add this to the resolve in the way that is filtered before of being rendered
   // @TODO: Get it form the BE
   $scope.$on('$ionicView.enter', function() {
@@ -25,6 +30,14 @@ angular.module('c42-ionic.controllers', [])
       });
     }
   });
+
+  $scope.doRefresh = function () {
+    _setEvents( function () {
+      //Stop the ion-refresher from spinning
+      $scope.$broadcast('scroll.refreshComplete');
+    });
+  };
+
 }])
 
 .controller('InterestsCtrl', function($scope, c42Api, calendarFilter) {
@@ -82,10 +95,19 @@ angular.module('c42-ionic.controllers', [])
     return $scope.shownItem === item;
   };
 
+  $scope.changeAttending = function() {
+    $scope.attending = !$scope.attending;
+    $scope.event.rsvp_status = $scope.attending ? 'attending' : 'not_attending';
+    c42Api.updateEventFields($scope.event, ['rsvp_status'], function (resp) {
+      console.warn(resp);
+    });
+  };
+
 
   // BEGIN setting event data
   c42Api.getEventById($stateParams.eventId, function (event) {
     $scope.event = event;
+    $scope.attending = event.rsvp_status == 'attending';
     if (event.start_location.geo) {
       // @todo: this has actually not been tested on any device yet, we might need to add cordova-plugin-inappbrowser
       // @todo: a different link should be called depending on whether you're on Android or iOS
