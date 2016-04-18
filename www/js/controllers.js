@@ -88,10 +88,19 @@ angular.module('c42-ionic.controllers', [])
     return $scope.shownItem === item;
   };
 
+  $scope.changeAttending = function() {
+    $scope.attending = !$scope.attending;
+    $scope.event.rsvp_status = $scope.attending ? 'attending' : 'not_attending';
+    c42Api.updateEventFields($scope.event, ['rsvp_status'], function (resp) {
+      console.warn(resp);
+    });
+  };
+
 
   // BEGIN setting event data
   c42Api.getEventById($stateParams.eventId, function (event) {
     $scope.event = event;
+    $scope.attending = event.rsvp_status == 'attending';
     if (event.start_location.geo) {
       // @todo: this has actually not been tested on any device yet, we might need to add cordova-plugin-inappbrowser
       // @todo: a different link should be called depending on whether you're on Android or iOS

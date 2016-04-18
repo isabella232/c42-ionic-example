@@ -19,6 +19,7 @@ angular.module('c42-ionic.services', [])
       "Event_Subscription_Api_post_event_subscription" : "postEventSubscription",
       "Event_Subscription_Api_get_event_subscriptions" : "getEventSubscription",
       "Event_Api_post_event" : "postEvent",
+      "Event_Api_patch_event" : "patchEvent",
       "Event_Api_get_events" : "getEvents",
       "Location_Api_get_locations" : "getLocations",
       "Position_Api_post_position" : "postPosition",
@@ -132,6 +133,20 @@ angular.module('c42-ionic.services', [])
     });
   };
 
+  var _updateEvent = function (event_id, partial, callback) {
+    // @fixme: awaiting fix of API component
+    // API.events.patchEvent({
+    //   params: partial,
+    //   callback: function(resp){
+    //     _handleEventResponse(resp, callback, true); // true in order to return single event object
+    //   }
+    // });
+    setTimeout(function() {
+      err = null;
+      callback(err);
+    }, 300);
+  };
+
   var _loadEventById = function(id, callback){
     API.events.getEvents({
       params: {
@@ -201,6 +216,13 @@ angular.module('c42-ionic.services', [])
       } else {
         _loadEventById(id,callback);
       }
+     },
+     updateEventFields: function (event, fields, callback) {
+        var partial = {};
+        for (var i = 0; i < fields.length; i++) {
+          partial[fields[i]] = event[fields[i]];
+        }
+        _updateEvent(event.id, partial, callback);
      }
   };
 })

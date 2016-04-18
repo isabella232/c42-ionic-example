@@ -7,7 +7,9 @@
                 </ui-gmap-google-map>
             </div>
             <div class="content">
-                <button class="button button-large button-clear flat waves-effect waves-button waves-light icon ion-heart pull-right text-white"></button>
+                <button class="button button-large button-clear flat waves-effect waves-button waves-light icon ion-heart pull-right" 
+                        ng-class="{'button-energized': attending, 'off': !attending }"
+                        ng-click="changeAttending()"></button>
             </div>
         </div>
         <div class="mid-bar dark-bg z1 padding">

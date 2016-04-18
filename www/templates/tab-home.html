@@ -11,7 +11,10 @@
         <ion-spinner ng-if="!events" style="text-align:center;margin: auto 0;display: block;" icon="dots" class="spinner-dark"></ion-spinner>
 
         <ion-item ng-repeat="event in events | orderBy:'title' | filter:{filtererdOut:false}" class="item item-avatar waves-effect waves-button waves-dark" type="item-text-wrap" href="#/tab/event/{{event.id}}">
-          <span class="avatar text-center">{{event.start | date:'@ HH:mm' : event.start_timezone}}</span>
+          <span class="avatar text-center">
+          {{event.start | date:'@ HH:mm' : event.start_timezone}}
+          <i ng-if="event.rsvp_status === 'attending'" class="icon ion-heart energized"></i>
+          </span>
           <h2>{{event.title}}</h2>
           <h3 class="calendar-tag" ng-repeat="calendar in event.__calendars" style="background-color:{{calendar.color}};">
                 {{calendar.name}}
