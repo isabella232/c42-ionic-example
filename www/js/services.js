@@ -34,7 +34,15 @@ angular.module('c42-ionic.services', [])
   API = new swaggerAPI(swaggerOptions);
   /* END CONSTRUCTING THE API MAPPING */
 
-  // Used to store in session more the following vars
+  /*
+    Cache of items 
+    Used to store in session more the following vars.
+    Will be filled like:
+    cached_items = {
+      "item.id": <item>,
+    }
+  */
+
   var cached_calendars = {};
   var cached_events = {};
 
@@ -44,16 +52,16 @@ angular.module('c42-ionic.services', [])
     resp = JSON.parse(resp);
     resp = resp.data;
     // set up cache
-    resp.forEach(function(e){
-      e.__calendars = e.calendar_ids.map(function(c){
-        return cached_calendars[c] || c;
+    resp.forEach(function(event){
+      event.__calendars = event.calendar_ids.map(function(cal){
+        return cached_calendars[cal] || cal;
       });
       try {
-        e.data = JSON.parse(e.data);
+        event.data = JSON.parse(event.data);
       } catch (err) {
-        e.data = {};
+        event.data = {};
       }
-      cached_events[e.id] = e;
+      cached_events[event.id] = event;
     });
     if (returnFirst) {
       resp = resp[0];
@@ -67,9 +75,10 @@ angular.module('c42-ionic.services', [])
     resp = JSON.parse(resp);
     resp = resp.data;
     // set up cache
-    resp.forEach(function(e){
-      cached_calendars[e.id] = e;
+    resp.forEach(function(calendar){
+      cached_calendars[calendar.id] = calendar;
     });
+    // The C42 API always returns an array, but sometimes you just want to get 1 item (like, get by id)
     if (returnFirst) {
       resp = resp[0];
     }
@@ -128,6 +137,7 @@ angular.module('c42-ionic.services', [])
   };
 
   return {
+    // Returns a Promise
     storeReady: function () {
       var self = this;
       return new Promise(function(resolve, reject) {

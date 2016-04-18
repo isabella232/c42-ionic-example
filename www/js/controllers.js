@@ -17,7 +17,6 @@ angular.module('c42-ionic.controllers', [])
   };
   c42Api.getCalendars(function(calendars){
     $scope.calendars = calendars;
-    // Fixme Not updating?
     $scope.data = {
       badgeCount : calendars.length
     };
