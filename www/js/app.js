@@ -34,7 +34,7 @@ var c42IonicApp = angular.module('c42-ionic', ['ionic', 'c42-ionic.controllers',
   .state('tab', {
     url: '/tab',
     abstract: true,
-    templateUrl: 'templates/tabs.html',
+    templateUrl: 'templates/app.html',
     resolve: {
       promiseObj: function (c42Api) {
         return c42Api.storeReady();
@@ -46,8 +46,8 @@ var c42IonicApp = angular.module('c42-ionic', ['ionic', 'c42-ionic.controllers',
   .state('tab.home', {
     url: '/home',
     views: {
-      'tab-home': {
-        templateUrl: 'templates/tab-home.html',
+      'home': {
+        templateUrl: 'templates/home.html',
         controller: 'HomeCtrl'
       }
     }
@@ -55,7 +55,7 @@ var c42IonicApp = angular.module('c42-ionic', ['ionic', 'c42-ionic.controllers',
   .state('tab.event', {
     url: '/event/:eventId',
     views: {
-      'tab-home': {
+      'home': {
         templateUrl: 'templates/event-detail.html',
         controller: 'EventDetailCtrl'
       }
@@ -64,19 +64,11 @@ var c42IonicApp = angular.module('c42-ionic', ['ionic', 'c42-ionic.controllers',
 
   .state('tab.interests', {
     url: '/interests',
+    // cache: true,
     views: {
-      'tab-interests': {
+      'home': {
         templateUrl: 'templates/tab-interests.html',
         controller: 'InterestsCtrl'
-      }
-    }
-  })
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
       }
     }
   });

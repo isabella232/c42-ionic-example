@@ -13,6 +13,7 @@ angular.module('c42-ionic.controllers', [])
   $scope.$on('$ionicView.enter', function() {
     if($scope.events){
       var filters = calendarFilter.getFilters();
+      // Checking if the event contains any calendar that is selected in the "filter calendars"
       $scope.events.forEach(function(event,idx, eventsList){
         if(event.__calendars.length && filters.length){
           eventsList[idx].filtererdOut = event.__calendars.some(function(calendar){
@@ -27,19 +28,25 @@ angular.module('c42-ionic.controllers', [])
 }])
 
 .controller('InterestsCtrl', function($scope, c42Api, calendarFilter) {
-  $scope.calendars = [];
+  // $scope.calendars = [];
   $scope.data = {
     badgeCount : 1
   };
-  c42Api.getCalendars(function(calendars){
-    $scope.calendars = calendars;
-    $scope.data = {
-      badgeCount : calendars.length
-    };
-  });
+  if(!$scope.calendars){
+    c42Api.getCalendars(function(calendars){
+      $scope.calendars = calendars;
+      $scope.data = {
+        badgeCount : calendars.length
+      };
+    });
+  }
 
-  $scope.saveFilter = function(calendar_id){
-    if(this.isChecked){
+  $scope.inFilter = function(calendar_id){
+    return calendarFilter.inFilter(calendar_id);
+  };
+
+  $scope.saveFilter = function(checked, calendar_id){
+    if(checked){
       calendarFilter.addFilter(calendar_id);
     }else{
       calendarFilter.removeFilter(calendar_id);
