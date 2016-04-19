@@ -1,13 +1,17 @@
 angular.module('c42-ionic.controllers', [])
 
 .controller('HomeCtrl', ['$scope', 'config', 'local_settings', 'c42Api','calendarFilter', '$window', function($scope,config, local_settings, c42Api, calendarFilter, $window) {
-  var _setEvents = function (callback) {
-    c42Api.getEvents(function(events){
-      $scope.$apply(function () {
-          $scope.events = events;
-          return callback ? callback(events) : events;
-      });
-    });
+  var options = {
+    // As we want to show quite some markers on the map, this is now set to 100.
+    // If the markers and events in the list are pulled of different API calls this could be set to 10
+    // Also, we should move the client side filtering then to the API
+    limit: 100,
+    offset: 0,
+  };
+
+  var _resetOffset = function () {
+    options.offset = 0;
+    $scope.events = null;
   };
 
   $scope.onclick = function (eventId) {
@@ -16,7 +20,6 @@ angular.module('c42-ionic.controllers', [])
   };
 
   $scope.mapCongig = config.initialConfig.mapDefaults;
-  _setEvents();
 
   // @TODO: Add this to the resolve in the way that is filtered before of being rendered
   // @TODO: Get it form the BE
@@ -37,9 +40,20 @@ angular.module('c42-ionic.controllers', [])
   });
 
   $scope.doRefresh = function () {
-    _setEvents( function () {
-      //Stop the ion-refresher from spinning
-      $scope.$broadcast('scroll.refreshComplete');
+    // @fixme: although we immediatly broadcast this, the arrow can still be briefly seen after loading
+    $scope.$broadcast('scroll.refreshComplete');
+    _resetOffset();
+    $scope.loadMore();
+  };
+
+  $scope.loadMore = function () {
+    c42Api.getEvents(options, function(events){
+        $scope.$apply(function () {
+            $scope.events = $scope.events ? $scope.events.concat(events) : events;
+        });
+        options.offset += $scope.events.length;
+        // Notify that the infinite loading is complete
+        $scope.$broadcast('scroll.infiniteScrollComplete');
     });
   };
 

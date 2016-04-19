@@ -115,18 +115,21 @@ angular.module('c42-ionic.services', [])
   };
 
   // Method encharged of actually load the events from the API
-  var _loadEvents = function(callback){
+  var _loadEvents = function(options, callback){
+    var defaultOptions = {
+      "include_removed_events": false,
+      "limit": 100,
+      "event_types": "[normal]",
+      "geo_polygons": "[y___Iy%7Bv%5CpiFa~Sb%7DP%7CaIosBxsh@esTuw]]",
+      "from_time": "2016-04-07T22:00:00.000Z",
+      "end_time": "2016-04-08T22:00:39.099Z",
+      "order_by": "start"
+    };
+    options = angular.extend(defaultOptions, options || {});
+
     // This can be personalisated
     API.events.getEvents({
-      params: {
-        "include_removed_events": false,
-        "limit": 100,
-        "event_types": "[normal]",
-        "geo_polygons": "[y___Iy%7Bv%5CpiFa~Sb%7DP%7CaIosBxsh@esTuw]]",
-        "from_time": "2016-04-07T22:00:00.000Z",
-        "end_time": "2016-04-08T22:00:39.099Z",
-        "order_by": "start"
-      },
+      params: options,
       callback: function(resp){
         _handleEventResponse(resp, callback);
       }
@@ -187,8 +190,8 @@ angular.module('c42-ionic.services', [])
         };
       }
     },
-    getEvents: function(callback){
-      _loadEvents(callback);
+    getEvents: function(options, callback){
+      _loadEvents(options, callback);
     },
     getCalendars: function(callback){
       /*
