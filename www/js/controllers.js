@@ -6,7 +6,7 @@ angular.module('c42-ionic.controllers', [])
     // If the markers and events in the list are pulled of different API calls this could be set to 10
     // Also, we should move the client side filtering then to the API
     limit: 100,
-    offset: 0,
+    offset: 0
   };
 
   var _resetOffset = function () {
@@ -85,7 +85,7 @@ angular.module('c42-ionic.controllers', [])
   };
 })
 
-.controller('EventDetailCtrl', ['$scope', '$stateParams', '$ionicScrollDelegate', '$timeout', 'c42Api', 'local_settings', function($scope, $stateParams, $ionicScrollDelegate, $timeout, c42Api, local_settings) {
+.controller('EventDetailCtrl', ['$scope', '$stateParams', '$ionicScrollDelegate', '$ionicPopup', 'c42Api', 'local_settings', function($scope, $stateParams, $ionicScrollDelegate, $ionicPopup, c42Api, local_settings) {
   // toggling items
   $scope.toggleItem= function(item) {
     if ($scope.isItemShown(item)) {
@@ -123,6 +123,39 @@ angular.module('c42-ionic.controllers', [])
       $scope.mapPicture = "https://maps.googleapis.com/maps/api/staticmap?markers=size:mid%7Ccolor:red%7C"+event.start_location.geo.latitude+","+event.start_location.geo.longitude+"&zoom=18&size=400x240&key=" + local_settings.googleStaticMapsAPIKey;
     });
   };
+
+  $scope.showMailPopup = function () {
+    $scope.data = {};
+    
+    var mailPopup = $ionicPopup.show({
+      template: '<input type="text" ng-model="data.email">',
+      title: 'Enter Email',
+      subTitle: 'Subscribe to event',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: '<b>Save</b>',
+          type: 'button-positive',
+          onTap: function(e) {
+            if (!$scope.data.email) {
+              e.preventDefault();
+            } else {
+              return $scope;
+            }
+          }
+        }
+      ]
+    }).then(function($scope) {
+      c42Api.createEventSubscription($scope.event, { "email": $scope.data.email }, function (err) {
+        if (!err) {
+          console.warn("success");
+        }
+      });
+    });
+  };
+
+
 
   $scope.$on('$ionicView.afterEnter', function(){
     _setEventScope();

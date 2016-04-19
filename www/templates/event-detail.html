@@ -83,6 +83,12 @@
                     }
             -->
             <ion-list>
+                <a ng-if="event-subscription-api-works-in-service" ng-click="showMailPopup()"
+                  class="item item-avatar waves-effect waves-button waves-dark positive">
+                    <span class="avatar text-center"><i class="icon ion-email larger"></i></span>
+                    <h2>Send by email</h2>
+                    <p>Send auto-updated .ics</p>
+                </a>
                 <a ng-show="event.data.info" href="{{event.data.info}}" 
                   class="item item-avatar waves-effect waves-button waves-dark positive">
                     <span class="avatar text-center"><i class="icon ion-information-circled larger"></i></span>

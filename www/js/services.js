@@ -161,6 +161,14 @@ angular.module('c42-ionic.services', [])
     });
   };
 
+  var _createEventSubscription = function (event, subscriber, callback) {
+    // @todo: create subscription
+    setTimeout(function() {
+      err = null;
+      callback(err);
+    }, 300);
+  };
+
   // Method encharged of actually load the calendars form the API
   var _loadCalendars = function(callback){
     API.calendars.getCalendars({
@@ -172,6 +180,7 @@ angular.module('c42-ionic.services', [])
       }
     });
   };
+
 
   return {
     // Returns a Promise
@@ -226,6 +235,9 @@ angular.module('c42-ionic.services', [])
           partial[fields[i]] = event[fields[i]];
         }
         _updateEvent(event.id, partial, callback);
+     },
+     createEventSubscription: function (event, subscriber, callback) {
+       _createEventSubscription(event, subscriber, callback);
      }
   };
 })
