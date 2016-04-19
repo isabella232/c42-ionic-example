@@ -2,7 +2,7 @@
   <ion-content>
         <div class="hero has-mask " style="background-image: url({{event.icon}});">
             <div class="location-component" ng-if="!event.icon">
-                <ui-gmap-google-map  center="event.start_location.geo" zoom="17" refresh="true" options="mapOptionsHero">
+                <ui-gmap-google-map  center="event.start_location.geo" zoom="17" options="mapOptionsHero">
                     <ui-gmap-marker coords="event.start_location.geo" idkey="event.id"></ui-gmap-marker>
                 </ui-gmap-google-map>
             </div>
@@ -53,7 +53,7 @@
             </ion-item >
 
             <ion-item class="location-component">
-                <ui-gmap-google-map  center="event.start_location.geo" zoom="18" refresh="true" options="mapOptions">
+                <ui-gmap-google-map  center="event.start_location.geo" zoom="18" options="mapOptions">
                     <ui-gmap-marker coords="event.start_location.geo" idkey="event.id"></ui-gmap-marker>
                 </ui-gmap-google-map>
                 <button ng-if="mapsUrl" class="button button-small pull-right positive" style="margin-top: -52px;margin-right: 10px;" href="{{mapsUrl}}">
