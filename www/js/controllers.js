@@ -19,7 +19,7 @@ angular.module('c42-ionic.controllers', [])
     $window.location.href = href;
   };
 
-  $scope.mapCongig = config.initialConfig.mapDefaults;
+  $scope.mapConfig = config.initialConfig.mapDefaults;
 
   // @TODO: Add this to the resolve in the way that is filtered before of being rendered
   // @TODO: Get it form the BE
