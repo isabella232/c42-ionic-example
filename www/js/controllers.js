@@ -1,6 +1,6 @@
 angular.module('c42-ionic.controllers', [])
 
-.controller('HomeCtrl', ['$scope', 'config', 'local_settings', 'c42Api','calendarFilter', function($scope,config, local_settings, c42Api, calendarFilter) {
+.controller('HomeCtrl', ['$scope', 'config', 'local_settings', 'c42Api','calendarFilter', '$window', function($scope,config, local_settings, c42Api, calendarFilter, $window) {
   var _setEvents = function (callback) {
     c42Api.getEvents(function(events){
       $scope.$apply(function () {
@@ -8,6 +8,11 @@ angular.module('c42-ionic.controllers', [])
           return callback ? callback(events) : events;
       });
     });
+  };
+
+  $scope.onclick = function (eventId) {
+    var href="#/tab/event/" + eventId;
+    $window.location.href = href;
   };
 
   $scope.mapCongig = config.initialConfig.mapDefaults;

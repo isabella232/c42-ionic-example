@@ -1,7 +1,13 @@
 <ion-view class="discover" view-title="Discover" ng-init="initHome()">
   <div class="map-wrapper" style="position: absolute; top: 0px; width: 100%">
     <ui-gmap-google-map center='mapCongig.center' zoom='mapCongig.zoom'events="events">
-      <ui-gmap-marker ng-repeat="event in events | filter:{filtererdOut:false}" coords="event.start_location.geo" idkey="event.id"></ui-gmap-marker>
+      <ui-gmap-marker
+          ng-repeat="event in events | filter:{filtererdOut:false}"
+          coords="event.start_location.geo"
+          idkey="event.id"
+          click="onclick(event.id)"
+          >
+      </ui-gmap-marker>
     </ui-gmap-google-map>
     <a style="position:absolute;bottom: -44px;right: 10px; transform: rotate(45deg);" class="button button-fab button-assertive" href="#/tab/interests"  ng-controller="InterestsCtrl">
       <span ng-repeat="calendar in calendars" style="background-color:{{calendar.color}};display:inline-block;height:100%;width:7%;"></span>
