@@ -1,11 +1,6 @@
 <ion-view view-title="Event">
   <ion-content>
-        <div class="hero has-mask " style="background-image: url({{event.icon}});">
-            <div class="location-component" ng-if="!event.icon">
-                <ui-gmap-google-map  center="event.start_location.geo" zoom="17" options="mapOptionsHero">
-                    <ui-gmap-marker coords="event.start_location.geo" idkey="event.id"></ui-gmap-marker>
-                </ui-gmap-google-map>
-            </div>
+        <div class="hero has-mask " style="background-image: url({{heroPicture}});">
             <div class="content">
                 <button class="button button-large button-clear flat waves-effect waves-button waves-light icon ion-heart pull-right" 
                         ng-class="{'button-energized': attending, 'off': !attending }"
@@ -19,9 +14,9 @@
             </p>
         </div>
 
-        <ion-spinner ng-if="!event" style="text-align:center;margin: auto 0;display: block;" icon="dots" class="spinner-dark"></ion-spinner>
+        <ion-spinner ng-show="!event" style="position:absolute;width:100%;text-align:center;display: block;" icon="dots" class="spinner-dark"></ion-spinner>
 
-        <ion-list ng-if="event">
+        <ion-list ng-if="event" ngCloak>
             <ion-item class="item item-text-wrap">
               <h3 class="calendar-tag" ng-repeat="calendar in event.__calendars" style="background-color:{{calendar.color}};">
                   {{calendar.name}}
@@ -42,7 +37,7 @@
                 </div>
             </ion-item>
 
-            <ion-item ng-if="event.description" class="item item-text-wrap">
+            <ion-item ng-show="event.description" class="item item-text-wrap">
                 <div ng-class="isItemShown('description') ? 'item-expand active' : 'item-expand inactive'">
                     {{event.description}}
                 </div>
@@ -53,9 +48,7 @@
             </ion-item >
 
             <ion-item class="location-component">
-                <ui-gmap-google-map  center="event.start_location.geo" zoom="18" options="mapOptions">
-                    <ui-gmap-marker coords="event.start_location.geo" idkey="event.id"></ui-gmap-marker>
-                </ui-gmap-google-map>
+                <div style="background: url({{mapPicture}}); background-size: cover; height:240px"></div>
                 <button ng-if="mapsUrl" class="button button-small pull-right positive" style="margin-top: -52px;margin-right: 10px;" href="{{mapsUrl}}">
                     <i class="icon ion-map positive"></i> Route in Maps
                 </button>
@@ -90,25 +83,25 @@
                     }
             -->
             <ion-list>
-                <a ng-if="event.data.info" href="{{event.data.info}}" 
+                <a ng-show="event.data.info" href="{{event.data.info}}" 
                   class="item item-avatar waves-effect waves-button waves-dark positive">
                     <span class="avatar text-center"><i class="icon ion-information-circled larger"></i></span>
                     <h2>More Info</h2>
                     <p>Visit original website</p>
                 </a>
-                <a ng-if="event.data.buy" href="{{event.data.buy}}" 
+                <a ng-show="event.data.buy" href="{{event.data.buy}}" 
                   class="item item-avatar waves-effect waves-button waves-dark positive">
                     <span class="avatar text-center"><i class="icon ion-card larger"></i></span>
                     <h2>Buy</h2>
                     <p>Buy a last minute ticket</p>
                 </a>
-                <a ng-if="event.data.book" href="{{event.data.book}}" 
+                <a ng-show="event.data.book" href="{{event.data.book}}" 
                   class="item item-avatar waves-effect waves-button waves-dark positive">
                     <span class="avatar text-center"><i class="icon ion-bookmark larger"></i></span>
                     <h2>Book</h2>
                     <p>Book at tiquets</p>
                 </a>
-                <a ng-if="event.data.call" href="tel:{{event.data.call}}" 
+                <a ng-show="event.data.call" href="tel:{{event.data.call}}" 
                   class="item item-avatar waves-effect waves-button waves-dark positive">
                     <span class="avatar text-center"><i class="icon ion-ios-telephone larger"></i></span>
                     <h2>Call</h2>

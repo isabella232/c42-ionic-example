@@ -85,21 +85,7 @@ angular.module('c42-ionic.controllers', [])
   };
 })
 
-.controller('EventDetailCtrl', ['$scope', '$stateParams', 'c42Api', function($scope, $stateParams, c42Api) {
-  // Map Options
-  $scope.mapOptions ={
-    disableDefaultUI:true,
-    panControl: false,
-    draggable: false
-  };
-
-  $scope.mapOptionsHero ={
-    disableDefaultUI:true,
-    panControl: false,
-    draggable: false,
-    mapTypeId: google.maps.MapTypeId.SATELLITE
-  };
-
+.controller('EventDetailCtrl', ['$scope', '$stateParams', 'c42Api', 'local_settings', function($scope, $stateParams, c42Api, local_settings) {
   // toggling items
   $scope.toggleItem= function(item) {
     if ($scope.isItemShown(item)) {
@@ -130,6 +116,8 @@ angular.module('c42-ionic.controllers', [])
         //        - https://gist.github.com/mrzmyr/977fc7d8bee58db9d96f
         $scope.mapsUrl = "comgooglemaps://?daddr="+event.start_location.text; // Android
       }
+      $scope.heroPicture = event.icon || "https://maps.googleapis.com/maps/api/staticmap?center="+event.start_location.geo.latitude+","+event.start_location.geo.longitude+"&zoom=18&size=400x400&maptype=satellite&key=" + local_settings.googleStaticMapsAPIKey;
+      $scope.mapPicture = "https://maps.googleapis.com/maps/api/staticmap?markers=size:mid%7Ccolor:red%7C"+event.start_location.geo.latitude+","+event.start_location.geo.longitude+"&zoom=18&size=400x240&key=" + local_settings.googleStaticMapsAPIKey;
     });
   };
 

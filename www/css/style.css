@@ -37,6 +37,10 @@
 /*
     EVENTS-DETAILS VIEW
 */
+
+.hero {
+  background-size: cover;
+}
 .location-component .angular-google-map-container {
   height: 240px;
 }

@@ -51,7 +51,8 @@ This file should contain your personal keys as follow:
 ```
 c42IonicApp.constant('local_settings', {
   googleMapsAPIKey: 'your_personal_google_maps_key',
-  c42APIKey: 'your_personal_c42APIKey'
+  googleStaticMapsAPIKey: 'your_personal_google_static_maps_key',
+  c42APIKey: 'your_personal_c42APIKey',
 });
 
 ```
