@@ -56,7 +56,7 @@ angular.module('c42-ionic.controllers', [])
         $scope.$broadcast('scroll.infiniteScrollComplete');
     });
   };
-
+  // As the infinite-scroll directive is already checking whether to load more, it will automaticaly load on entering the view
 }])
 
 .controller('InterestsCtrl', function($scope, c42Api, calendarFilter) {
