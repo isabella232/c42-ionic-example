@@ -60,7 +60,6 @@ angular.module('c42-ionic.controllers', [])
 }])
 
 .controller('InterestsCtrl', function($scope, c42Api, calendarFilter) {
-  // $scope.calendars = [];
   $scope.data = {
     badgeCount : 1
   };
@@ -139,10 +138,3 @@ angular.module('c42-ionic.controllers', [])
   });
   
 }])
-
-
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
-});
