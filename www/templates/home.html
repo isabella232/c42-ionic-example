@@ -18,7 +18,7 @@
     <ion-refresher on-refresh="doRefresh()">
     </ion-refresher>
     <ion-list style="top: 160px !important;">
-      <ion-item ng-repeat="event in events | filter:{filtererdOut:false}" class="item item-avatar waves-effect waves-button waves-dark" type="item-text-wrap" href="#/tab/event/{{event.id}}">
+      <ion-item collection-repeat="event in events | filter:{filtererdOut:false}" class="item item-avatar waves-effect waves-button waves-dark" type="item-text-wrap" href="#/tab/event/{{event.id}}">
         <span class="avatar text-center">
           {{event.start | date:'@ HH:mm' : event.start_timezone}}
           <i ng-if="event.rsvp_status === 'attending'" class="icon ion-heart energized"></i>
