@@ -96,7 +96,6 @@ angular.module('c42-ionic.controllers', [])
 
   $scope.mapOptionsHero ={
     disableDefaultUI:true,
-    tilt:45,
     panControl: false,
     draggable: false,
     mapTypeId: google.maps.MapTypeId.SATELLITE
@@ -122,19 +121,23 @@ angular.module('c42-ionic.controllers', [])
     });
   };
 
+  var _setEventScope = function () {
+    c42Api.getEventById($stateParams.eventId, function (event) {
+      $scope.event = event;
+      $scope.attending = event.rsvp_status == 'attending';
+      if (event.start_location.geo) {
+        // @todo: this has actually not been tested on any device yet, we might need to add cordova-plugin-inappbrowser
+        // @todo: a different link should be called depending on whether you're on Android or iOS
+        //        - https://gist.github.com/mrzmyr/977fc7d8bee58db9d96f
+        $scope.mapsUrl = "comgooglemaps://?daddr="+event.start_location.text; // Android
+      }
+    });
+  };
 
-  // BEGIN setting event data
-  c42Api.getEventById($stateParams.eventId, function (event) {
-    $scope.event = event;
-    $scope.attending = event.rsvp_status == 'attending';
-    if (event.start_location.geo) {
-      // @todo: this has actually not been tested on any device yet, we might need to add cordova-plugin-inappbrowser
-      // @todo: a different link should be called depending on whether you're on Android or iOS
-      //        - https://gist.github.com/mrzmyr/977fc7d8bee58db9d96f
-      $scope.mapsUrl = "comgooglemaps://?daddr="+event.start_location.text; // Android
-    }
+  $scope.$on('$ionicView.afterEnter', function(){
+    _setEventScope();
   });
-  // END setting event data
+  
 }])
 
 
