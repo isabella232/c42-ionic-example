@@ -137,4 +137,4 @@ angular.module('c42-ionic.controllers', [])
     _setEventScope();
   });
   
-}])
+}]);
