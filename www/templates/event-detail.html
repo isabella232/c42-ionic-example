@@ -38,7 +38,7 @@
             </ion-item>
 
             <ion-item ng-show="event.description" class="item item-text-wrap">
-                <div ng-class="isItemShown('description') ? 'item-expand active' : 'item-expand inactive'">
+                <div ng-class="isItemShown('description') ? 'item-expand active' : 'item-expand inactive'" my-transition-end="refreshScroll()">
                     {{event.description}}
                 </div>
                 <p ng-click="toggleItem('description')" class="item-expand-footer" style="color:#3F51B5">

@@ -85,7 +85,7 @@ angular.module('c42-ionic.controllers', [])
   };
 })
 
-.controller('EventDetailCtrl', ['$scope', '$stateParams', 'c42Api', 'local_settings', function($scope, $stateParams, c42Api, local_settings) {
+.controller('EventDetailCtrl', ['$scope', '$stateParams', '$ionicScrollDelegate', '$timeout', 'c42Api', 'local_settings', function($scope, $stateParams, $ionicScrollDelegate, $timeout, c42Api, local_settings) {
   // toggling items
   $scope.toggleItem= function(item) {
     if ($scope.isItemShown(item)) {
@@ -93,6 +93,9 @@ angular.module('c42-ionic.controllers', [])
     } else {
       $scope.shownItem = item;
     }
+  };
+  $scope.refreshScroll = function () {
+    $ionicScrollDelegate.resize();
   };
   $scope.isItemShown = function(item) {
     return $scope.shownItem === item;

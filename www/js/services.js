@@ -255,4 +255,52 @@ angular.module('c42-ionic.services', [])
       return filterList;
     }
   };
-});
+})
+// @todo: Move me to a directives file
+/**
+  Directive used to call actions upon finished CSS animations, e.g:
+    <div my-transition-end="doSomething()">
+*/
+.directive('myTransitionEnd', [
+           '$parse',
+ function ( $parse  ) {
+    var transitions = {
+        "transition"      : "transitionend",
+        "OTransition"     : "oTransitionEnd",
+        "MozTransition"   : "transitionend",
+        "WebkitTransition": "webkitTransitionEnd"
+    };
+
+    var whichTransitionEvent = function () {
+        var t,
+            el = document.createElement("fakeelement");
+
+        for (t in transitions) {
+            if (el.style[t] !== undefined){
+                return transitions[t];
+            }
+        }
+    };
+
+    var transitionEvent = whichTransitionEvent();
+
+    return {
+        'restrict': 'A',
+        'link': function (scope, element, attrs) {
+            var expr = attrs['myTransitionEnd'];
+            var fn = $parse(expr);
+
+            element.bind(transitionEvent, function (evt) {
+                console.log('got a css transition event', evt);
+
+                var phase = scope.$root.$$phase;
+
+                if (phase === '$apply' || phase === '$digest') {
+                    fn();
+                } else {
+                    scope.$apply(fn);
+                }
+            });
+        },
+    };
+ }]);
