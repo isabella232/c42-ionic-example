@@ -1,6 +1,6 @@
 <ion-view class="discover" view-title="Discover" ng-init="initHome()">
   <div class="map-wrapper" style="position: absolute; top: 0px; width: 100%">
-    <ui-gmap-google-map center='mapConfig.center' zoom='mapConfig.zoom'events="events">
+    <ui-gmap-google-map center='mapConfig.center' zoom='mapConfig.zoom' events="mapConfig.events">
       <ui-gmap-marker
           ng-repeat="event in events | filter:{filtererdOut:false}"
           coords="event.start_location.geo"
