@@ -137,7 +137,7 @@ angular.module('c42-ionic.services', [])
   };
 
   var _updateEvent = function (event_id, partial, callback) {
-    // @fixme: awaiting fix of API component
+    partial.id = event_id;
     API.events.patchEvent({
       params: partial,
       callback: function(resp){
