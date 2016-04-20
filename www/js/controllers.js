@@ -25,10 +25,10 @@ angular.module('c42-ionic.controllers', [])
 
     'idle':function(){
       c42Api.getEvents(options, function(events){
-          $scope.$apply(function () {
-              $scope.events = $scope.events ? $scope.events.concat(events) : events;
-          });
-          options.offset += $scope.events.length;
+        $scope.$apply(function () {
+            $scope.events = events;
+        });
+        options.offset += $scope.events.length;
       });
     },
     'bounds_changed': function(){
