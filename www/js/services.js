@@ -115,18 +115,21 @@ angular.module('c42-ionic.services', [])
   };
 
   // Method encharged of actually load the events from the API
-  var _loadEvents = function(callback){
+  var _loadEvents = function(options, callback){
+    var defaultOptions = {
+      "include_removed_events": false,
+      "limit": 100,
+      "event_types": "[normal]",
+      "geo_polygons": "[y___Iy%7Bv%5CpiFa~Sb%7DP%7CaIosBxsh@esTuw]]",
+      "from_time": "2016-04-07T22:00:00.000Z",
+      "end_time": "2016-04-08T22:00:39.099Z",
+      "order_by": "start"
+    };
+    options = angular.extend(defaultOptions, options || {});
+
     // This can be personalisated
     API.events.getEvents({
-      params: {
-        "include_removed_events": false,
-        "limit": 100,
-        "event_types": "[normal]",
-        "geo_polygons": "[y___Iy%7Bv%5CpiFa~Sb%7DP%7CaIosBxsh@esTuw]]",
-        "from_time": "2016-04-07T22:00:00.000Z",
-        "end_time": "2016-04-08T22:00:39.099Z",
-        "order_by": "start"
-      },
+      params: options,
       callback: function(resp){
         _handleEventResponse(resp, callback);
       }
@@ -158,6 +161,14 @@ angular.module('c42-ionic.services', [])
     });
   };
 
+  var _createEventSubscription = function (event, subscriber, callback) {
+    // @todo: create subscription
+    setTimeout(function() {
+      err = null;
+      callback(err);
+    }, 300);
+  };
+
   // Method encharged of actually load the calendars form the API
   var _loadCalendars = function(callback){
     API.calendars.getCalendars({
@@ -169,6 +180,7 @@ angular.module('c42-ionic.services', [])
       }
     });
   };
+
 
   return {
     // Returns a Promise
@@ -187,8 +199,8 @@ angular.module('c42-ionic.services', [])
         };
       }
     },
-    getEvents: function(callback){
-      _loadEvents(callback);
+    getEvents: function(options, callback){
+      _loadEvents(options, callback);
     },
     getCalendars: function(callback){
       /*
@@ -223,6 +235,9 @@ angular.module('c42-ionic.services', [])
           partial[fields[i]] = event[fields[i]];
         }
         _updateEvent(event.id, partial, callback);
+     },
+     createEventSubscription: function (event, subscriber, callback) {
+       _createEventSubscription(event, subscriber, callback);
      }
   };
 })
@@ -252,4 +267,52 @@ angular.module('c42-ionic.services', [])
       return filterList;
     }
   };
-});
+})
+// @todo: Move me to a directives file
+/**
+  Directive used to call actions upon finished CSS animations, e.g:
+    <div my-transition-end="doSomething()">
+*/
+.directive('myTransitionEnd', [
+           '$parse',
+ function ( $parse  ) {
+    var transitions = {
+        "transition"      : "transitionend",
+        "OTransition"     : "oTransitionEnd",
+        "MozTransition"   : "transitionend",
+        "WebkitTransition": "webkitTransitionEnd"
+    };
+
+    var whichTransitionEvent = function () {
+        var t,
+            el = document.createElement("fakeelement");
+
+        for (t in transitions) {
+            if (el.style[t] !== undefined){
+                return transitions[t];
+            }
+        }
+    };
+
+    var transitionEvent = whichTransitionEvent();
+
+    return {
+        'restrict': 'A',
+        'link': function (scope, element, attrs) {
+            var expr = attrs['myTransitionEnd'];
+            var fn = $parse(expr);
+
+            element.bind(transitionEvent, function (evt) {
+                console.log('got a css transition event', evt);
+
+                var phase = scope.$root.$$phase;
+
+                if (phase === '$apply' || phase === '$digest') {
+                    fn();
+                } else {
+                    scope.$apply(fn);
+                }
+            });
+        },
+    };
+ }]);
