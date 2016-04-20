@@ -108,6 +108,10 @@ angular.module('c42-ionic.controllers', [])
     });
   };
 
+  $scope.openMaps = function(){
+    var ref = window.open(this.mapsUrl, '_system', 'location=yes');
+
+  }
 
   // BEGIN setting event data
   c42Api.getEventById($stateParams.eventId, function (event) {
@@ -117,7 +121,7 @@ angular.module('c42-ionic.controllers', [])
       // @todo: this has actually not been tested on any device yet, we might need to add cordova-plugin-inappbrowser
       // @todo: a different link should be called depending on whether you're on Android or iOS
       //        - https://gist.github.com/mrzmyr/977fc7d8bee58db9d96f
-      $scope.mapsUrl = "comgooglemaps://?daddr="+event.start_location.text; // Android
+      $scope.mapsUrl = "http://maps.google.com/maps?q="+event.start_location.text.replace(/ /g,"+"); // Android
     }
   });
   // END setting event data

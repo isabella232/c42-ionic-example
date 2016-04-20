@@ -135,12 +135,12 @@ angular.module('c42-ionic.services', [])
 
   var _updateEvent = function (event_id, partial, callback) {
     // @fixme: awaiting fix of API component
-    // API.events.patchEvent({
-    //   params: partial,
-    //   callback: function(resp){
-    //     _handleEventResponse(resp, callback, true); // true in order to return single event object
-    //   }
-    // });
+    API.events.patchEvent({
+      params: partial,
+      callback: function(resp){
+        _handleEventResponse(resp, callback, true); // true in order to return single event object
+      }
+    });
     setTimeout(function() {
       err = null;
       callback(err);

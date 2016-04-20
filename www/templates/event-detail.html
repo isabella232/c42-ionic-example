@@ -7,7 +7,7 @@
                 </ui-gmap-google-map>
             </div>
             <div class="content">
-                <button class="button button-large button-clear flat waves-effect waves-button waves-light icon ion-heart pull-right" 
+                <button class="button button-large button-clear flat waves-effect waves-button waves-light icon ion-heart pull-right"
                         ng-class="{'button-energized': attending, 'off': !attending }"
                         ng-click="changeAttending()"></button>
             </div>
@@ -35,7 +35,7 @@
                     <i class="icon ion-log-out stable"></i> <strong>{{event.end | date:'EEEE MM/dd/yyyy @ HH:mm' : event.end_timezone}}</strong>
                 </div>
                 <div>
-                    <i class="icon ion-clock stable"></i> 
+                    <i class="icon ion-clock stable"></i>
                     <strong>
                         {{event.end | amDifference : event.start : 'hours' }} hours
                     </strong>
@@ -56,13 +56,13 @@
                 <ui-gmap-google-map  center="event.start_location.geo" zoom="18" refresh="true" options="mapOptions">
                     <ui-gmap-marker coords="event.start_location.geo" idkey="event.id"></ui-gmap-marker>
                 </ui-gmap-google-map>
-                <button ng-if="mapsUrl" class="button button-small pull-right positive" style="margin-top: -52px;margin-right: 10px;" href="{{mapsUrl}}">
+                <button ng-if="mapsUrl" class="button button-small pull-right positive" style="margin-top: -52px;margin-right: 10px;" ng-click="openMaps()">
                     <i class="icon ion-map positive"></i> Route in Maps
                 </button>
                 <div class="item item-text-wrap">
                     <strong>{{event.start_location.address}}</strong>
                     <div class="card-footer text-right">
-                        
+
                         <div class="pull-left">
                             {{event.start_location.city}}
                         </div>
@@ -72,13 +72,13 @@
 
 
             <!-- the data is not received as correct json: it contains 'u' -->
-            <!-- <i class="icon ion-person-stalker"></i> 42{{event['data.fb_friends']}} 
+            <!-- <i class="icon ion-person-stalker"></i> 42{{event['data.fb_friends']}}
             <i class="icon ion-arrow-graph-up-right"></i> 42{{event['data.rel_data']}}  -->
 
             <!--
                 Due to wrongly imported events, this currently only works on event:
                     84f074a91668de97cf5f59317102cb70_14600447035815
-                
+
                 This event contains the data:
                     {
                         "info": "https://nu.nl",
@@ -90,25 +90,25 @@
                     }
             -->
             <ion-list>
-                <a ng-if="event.data.info" href="{{event.data.info}}" 
+                <a ng-if="event.data.info" href="{{event.data.info}}"
                   class="item item-avatar waves-effect waves-button waves-dark positive">
                     <span class="avatar text-center"><i class="icon ion-information-circled larger"></i></span>
                     <h2>More Info</h2>
                     <p>Visit original website</p>
                 </a>
-                <a ng-if="event.data.buy" href="{{event.data.buy}}" 
+                <a ng-if="event.data.buy" href="{{event.data.buy}}"
                   class="item item-avatar waves-effect waves-button waves-dark positive">
                     <span class="avatar text-center"><i class="icon ion-card larger"></i></span>
                     <h2>Buy</h2>
                     <p>Buy a last minute ticket</p>
                 </a>
-                <a ng-if="event.data.book" href="{{event.data.book}}" 
+                <a ng-if="event.data.book" href="{{event.data.book}}"
                   class="item item-avatar waves-effect waves-button waves-dark positive">
                     <span class="avatar text-center"><i class="icon ion-bookmark larger"></i></span>
                     <h2>Book</h2>
                     <p>Book at tiquets</p>
                 </a>
-                <a ng-if="event.data.call" href="tel:{{event.data.call}}" 
+                <a ng-if="event.data.call" href="tel:{{event.data.call}}"
                   class="item item-avatar waves-effect waves-button waves-dark positive">
                     <span class="avatar text-center"><i class="icon ion-ios-telephone larger"></i></span>
                     <h2>Call</h2>
@@ -120,7 +120,7 @@
   </ion-content>
 </ion-view>
 
-<!-- 
+<!--
 "start_location": {
         "id": "5d0b459a9812f5de63010deb395120121acf4947",
         "text": "Lijnbaansgracht 236-241, 1017, Amsterdam",
