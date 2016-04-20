@@ -20,7 +20,6 @@ angular.module('c42-ionic.controllers', [])
   };
 
   $scope.mapConfig = config.initialConfig.mapDefaults;
-
   // @TODO: Add this to the resolve in the way that is filtered before of being rendered
   // @TODO: Get it form the BE
   $scope.$on('$ionicView.enter', function() {
@@ -56,6 +55,7 @@ angular.module('c42-ionic.controllers', [])
         $scope.$broadcast('scroll.infiniteScrollComplete');
     });
   };
+
   // As the infinite-scroll directive is already checking whether to load more, it will automaticaly load on entering the view
 }])
 
@@ -86,7 +86,12 @@ angular.module('c42-ionic.controllers', [])
 })
 
 .controller('EventDetailCtrl', ['$scope', '$stateParams', '$ionicScrollDelegate', '$ionicPopup', 'c42Api', 'local_settings', function($scope, $stateParams, $ionicScrollDelegate, $ionicPopup, c42Api, local_settings) {
-  // toggling items
+  // Var used to know if certain element should be shown.
+  // Used to know if the 'description' is shown.
+  $scope.shownItem = null;
+  $scope.isItemShown = function(item) {
+    return $scope.shownItem === item;
+  };
   $scope.toggleItem= function(item) {
     if ($scope.isItemShown(item)) {
       $scope.shownItem = null;
@@ -94,11 +99,10 @@ angular.module('c42-ionic.controllers', [])
       $scope.shownItem = item;
     }
   };
+  // This method is required (and called) after toggle an element that increases/reduces the page length.
+  // In that case the scroll is affected and needs to be re-calculated
   $scope.refreshScroll = function () {
     $ionicScrollDelegate.resize();
-  };
-  $scope.isItemShown = function(item) {
-    return $scope.shownItem === item;
   };
 
   $scope.changeAttending = function() {
@@ -109,9 +113,9 @@ angular.module('c42-ionic.controllers', [])
     });
   };
 
+  // Method used when the user requests for showing the location in an external app, e.g: google maops
   $scope.openMaps = function(){
     var ref = window.open(this.mapsUrl, '_system', 'location=yes');
-
   }
 
   var _setEventScope = function () {
@@ -119,8 +123,7 @@ angular.module('c42-ionic.controllers', [])
       $scope.event = event;
       $scope.attending = event.rsvp_status == 'attending';
       if (event.start_location.geo) {
-        // @todo: this has actually not been tested on any device yet, we might need to add cordova-plugin-inappbrowser
-        // @todo: a different link should be called depending on whether you're on Android or iOS
+        // @TODO: apply this solution despite different link should be called depending on whether you're on Android or iOS
         //        - https://gist.github.com/mrzmyr/977fc7d8bee58db9d96f
         $scope.mapsUrl = "http://maps.google.com/maps?q="+event.start_location.text.replace(/ /g,"+"); // Android
       }
