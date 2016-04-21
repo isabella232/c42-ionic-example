@@ -171,6 +171,7 @@ angular.module('c42-ionic.services', [])
             "email": subscriber.email
         },
         "is_invitation": true,
+        "permission": "invited_read"
       },
       callback: callback
     });
