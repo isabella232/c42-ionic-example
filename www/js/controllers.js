@@ -201,8 +201,12 @@ angular.module('c42-ionic.controllers', [])
           onTap: function(e) {
             if (!$scope.data.email) {
               e.preventDefault();
-
             } else {
+              var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+              if(!re.test($scope.data.email)){
+                e.preventDefault();
+                return false;
+              }
               c42Api.createEventSubscription($scope.event, { "email": $scope.data.email }, function (err) {
                 if (!err) {
                   console.warn("success");
