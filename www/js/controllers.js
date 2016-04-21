@@ -24,6 +24,7 @@ angular.module('c42-ionic.controllers', [])
   $scope.mapConfig.events = {
 
     'idle':function(){
+      // Very first loading of the events, and every time the map is idle.
       c42Api.getEvents(options, function(events){
         $scope.$apply(function () {
             $scope.events = events;
@@ -60,7 +61,7 @@ angular.module('c42-ionic.controllers', [])
           this.map.getBounds().getSouthWest().lng()
         ]
       ];
-      options.geo_polygons = "["+polyline.encode(bounds)+"]";
+      options.geo_polygons = encodeURIComponent("["+polyline.encode(bounds)+"]");
     }
   };
   // @TODO: Add this to the resolve in the way that is filtered before of being rendered
@@ -89,7 +90,8 @@ angular.module('c42-ionic.controllers', [])
   };
 
   $scope.loadMore = function () {
-    // We don't want to load with load More at the beginning. Only due user scroll
+    // We don't want to load with load More at the beginning when there is no events.
+    // Only due user scroll.
     if($scope.events){
       c42Api.getEvents(options, function(events){
           $scope.$apply(function () {
