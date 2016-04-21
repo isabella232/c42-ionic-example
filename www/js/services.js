@@ -149,10 +149,7 @@ angular.module('c42-ionic.services', [])
         _handleEventResponse(resp, callback, true); // true in order to return single event object
       }
     });
-    setTimeout(function() {
-      err = null;
-      callback(err);
-    }, 300);
+
   };
 
   var _loadEventById = function(id, callback){
@@ -167,11 +164,16 @@ angular.module('c42-ionic.services', [])
   };
 
   var _createEventSubscription = function (event, subscriber, callback) {
-    // @todo: create subscription
-    setTimeout(function() {
-      err = null;
-      callback(err);
-    }, 300);
+    API.eventSubscriptions.postEventSubscription({
+      params: {
+        "event_id": event.id,
+        "subscriber": {
+            "email": subscriber.email
+        },
+        "is_invitation": true,
+      },
+      callback: callback
+    });
   };
 
   // Method encharged of actually load the calendars form the API
