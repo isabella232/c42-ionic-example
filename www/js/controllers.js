@@ -190,29 +190,29 @@ angular.module('c42-ionic.controllers', [])
 
     var mailPopup = $ionicPopup.show({
       template: '<input type="text" ng-model="data.email">',
-      title: 'Enter Email',
+      title: 'Enter email',
       subTitle: 'Subscribe to event',
       scope: $scope,
       buttons: [
-        { text: 'Cancel' },
+        { text: '<span style="font-size: .7em;">Cancel</span>' },
         {
-          text: '<b>Save</b>',
+          text: '<b style="font-size: .7em;">Save</b>',
           type: 'button-positive',
           onTap: function(e) {
             if (!$scope.data.email) {
               e.preventDefault();
+
             } else {
+              c42Api.createEventSubscription($scope.event, { "email": $scope.data.email }, function (err) {
+                if (!err) {
+                  console.warn("success");
+                }
+              });
               return $scope;
             }
           }
         }
       ]
-    }).then(function($scope) {
-      c42Api.createEventSubscription($scope.event, { "email": $scope.data.email }, function (err) {
-        if (!err) {
-          console.warn("success");
-        }
-      });
     });
   };
 
