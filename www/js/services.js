@@ -45,6 +45,7 @@ angular.module('c42-ionic.services', [])
   */
   var cached_calendars = {};
   var cached_events = {};
+  var cached_events_metadata = {};
 
   var _handleEventResponse = function (resp, callback, returnFirst) {
     /**
@@ -62,6 +63,7 @@ angular.module('c42-ionic.services', [])
     */
 
     resp = JSON.parse(resp);
+    cached_events_metadata = resp.meta_data;
     resp = resp.data;
 
     // set up cache
@@ -238,6 +240,16 @@ angular.module('c42-ionic.services', [])
      },
      createEventSubscription: function (event, subscriber, callback) {
        _createEventSubscription(event, subscriber, callback);
+     },
+     /*
+      Returns the total amount of events in the server side. Provided by the meta_data.count of the response
+     */
+     getTotalEventsCount: function(){
+       if(cached_events_metadata.count !== undefined){
+         return cached_events_metadata.count;
+       }else{
+         return;
+       }
      }
   };
 })

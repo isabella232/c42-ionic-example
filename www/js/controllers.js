@@ -9,16 +9,22 @@ angular.module('c42-ionic.controllers', [])
     offset: 0
   };
 
-  var _resetOffset = function () {
-    options.offset = 0;
-    $scope.events = null;
-  };
+  // Encharged to manage the scope and the options offset based on the parapms
+  // events [array] : the list of events will be added/replaced in the scope
+  // replace [boolean] : If this argument is true the events will be always replaced. If not will just be concatenated
+  var setEvents = function(events, replace){
+    $scope.$apply(function () {
+      $scope.events = replace ? events : $scope.events.concat(events);
+    });
+    options.offset = $scope.events.length;
+  }
 
   $scope.onclick = function (eventId) {
     var href="#/tab/event/" + eventId;
     $window.location.href = href;
   };
 
+  $scope.events = [];
   $scope.mapConfig = config.initialConfig.mapDefaults;
 
   $scope.mapConfig.events = {
@@ -26,10 +32,7 @@ angular.module('c42-ionic.controllers', [])
     'idle':function(){
       // Very first loading of the events, and every time the map is idle.
       c42Api.getEvents(options, function(events){
-        $scope.$apply(function () {
-            $scope.events = events;
-        });
-        options.offset += $scope.events.length;
+        setEvents(events,true);
       });
     },
     'bounds_changed': function(){
@@ -67,7 +70,7 @@ angular.module('c42-ionic.controllers', [])
   // @TODO: Add this to the resolve in the way that is filtered before of being rendered
   // @TODO: Get it form the BE
   $scope.$on('$ionicView.enter', function() {
-    if($scope.events){
+    if($scope.events.length){
       var filters = calendarFilter.getFilters();
       // Checking if the event contains any calendar that is selected in the "filter calendars"
       $scope.events.forEach(function(event,idx, eventsList){
@@ -85,28 +88,27 @@ angular.module('c42-ionic.controllers', [])
   $scope.doRefresh = function () {
     // @fixme: although we immediatly broadcast this, the arrow can still be briefly seen after loading
     $scope.$broadcast('scroll.refreshComplete');
-    _resetOffset();
-    $scope.loadMore();
+    // Since we are refreshing form the bottom we set the offset of the options to 0
+    options.offset = 0;
+    c42Api.getEvents(options, function(events){
+      setEvents(events,true);
+    });
   };
 
   $scope.loadMore = function () {
     // We don't want to load with load More at the beginning when there is no events.
     // Only due user scroll.
-    if($scope.events){
+    if(c42Api.getTotalEventsCount() && $scope.events.length && c42Api.getTotalEventsCount() > $scope.events.length){
       c42Api.getEvents(options, function(events){
-          $scope.$apply(function () {
-              $scope.events = $scope.events ? $scope.events.concat(events) : events;
-          });
-          options.offset += $scope.events.length;
-          // Notify that the infinite loading is complete
-          $scope.$broadcast('scroll.infiniteScrollComplete');
+        setEvents(events);
+        // Notify that the infinite loading is complete
+        $scope.$broadcast('scroll.infiniteScrollComplete');
       });
     }else{
       // Because this method will be called even if there is none, we stop it notifying
       $scope.$broadcast('scroll.infiniteScrollComplete');
     }
   };
-
   // As the infinite-scroll directive is already checking whether to load more, it will automaticaly load on entering the view
 }])
 
