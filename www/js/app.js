@@ -5,8 +5,16 @@
 // the 2nd parameter is an array of 'requires'
 // 'c42-ionic.services' is found in services.js
 // 'c42-ionic.controllers' is found in controllers.js
-var c42IonicApp = angular.module('c42-ionic', ['ionic', 'c42-ionic.controllers', 'c42-ionic.services','ionic-material','uiGmapgoogle-maps', 'angularMoment'])
-
+var c42IonicApp = angular.module('c42-ionic', [
+  'ionic',
+  'ngAnimate',
+  'c42-ionic.controllers',
+  'c42-ionic.services',
+  'ionic-material',
+  'uiGmapgoogle-maps',
+  'angularMoment',
+  'cfp.loadingBar'
+])
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -22,7 +30,9 @@ var c42IonicApp = angular.module('c42-ionic', ['ionic', 'c42-ionic.controllers',
     }
   });
 })
-
+.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+  cfpLoadingBarProvider.includeSpinner = false;
+}])
 .config(function($stateProvider, $urlRouterProvider) {
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router

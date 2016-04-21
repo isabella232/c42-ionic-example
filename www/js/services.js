@@ -1,5 +1,5 @@
 angular.module('c42-ionic.services', [])
-.factory('c42Api', function(local_settings) {
+.factory('c42Api', function(local_settings, cfpLoadingBar) {
 
   var defaultOnReady = function(){
     console.log("C42 API LOADED");
@@ -129,10 +129,13 @@ angular.module('c42-ionic.services', [])
     };
     options = angular.extend(defaultOptions, options || {});
 
+    cfpLoadingBar.start();
+
     // This can be personalisated
     API.events.getEvents({
       params: options,
       callback: function(resp){
+        cfpLoadingBar.complete();
         _handleEventResponse(resp, callback);
       }
     });
