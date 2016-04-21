@@ -31,7 +31,6 @@ var c42IonicApp = angular.module('c42-ionic', [
   });
 })
 .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
-    // cfpLoadingBarProvider.includeBar = false;
     cfpLoadingBarProvider.latencyThreshold = 500;
 }])
 .config(function($stateProvider, $urlRouterProvider) {
