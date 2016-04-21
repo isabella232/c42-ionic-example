@@ -16,7 +16,7 @@
 
         <ion-spinner ng-show="!event" style="position:absolute;width:100%;text-align:center;display: block;" icon="dots" class="spinner-dark"></ion-spinner>
 
-        <ion-list ng-if="event" ngCloak>
+        <ion-list ng-if="event">
             <ion-item class="item item-text-wrap">
               <h3 class="calendar-tag" ng-repeat="calendar in event.__calendars" style="background-color:{{calendar.color}};">
                   {{calendar.name}}
@@ -85,8 +85,8 @@
             -->
 
         </ion-list>
-        <ion-list>
-          <a ng-if="event-subscription-api-works-in-service" ng-click="showMailPopup()"
+        <ion-list ng-if="event">
+          <a ng-click="showMailPopup()"
               class="item item-avatar waves-effect waves-button waves-dark positive">
               <span class="avatar text-center"><i class="icon ion-email larger"></i></span>
               <h2>Send by email</h2>
