@@ -31,7 +31,8 @@ var c42IonicApp = angular.module('c42-ionic', [
   });
 })
 .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
-  cfpLoadingBarProvider.includeSpinner = false;
+    // cfpLoadingBarProvider.includeBar = false;
+    cfpLoadingBarProvider.latencyThreshold = 500;
 }])
 .config(function($stateProvider, $urlRouterProvider) {
   // Ionic uses AngularUI Router which uses the concept of states

@@ -1,6 +1,6 @@
 angular.module('c42-ionic.controllers', [])
 
-.controller('HomeCtrl', ['$scope', 'config', 'local_settings', 'c42Api','calendarFilter', '$window', 'uiGmapGoogleMapApi', function($scope,config, local_settings, c42Api, calendarFilter, $window, uiGmapGoogleMapApi) {
+.controller('HomeCtrl', ['$scope', 'config', 'local_settings', 'c42Api','calendarFilter', '$window', 'uiGmapGoogleMapApi', 'cfpLoadingBar', function($scope,config, local_settings, c42Api, calendarFilter, $window, uiGmapGoogleMapApi, cfpLoadingBar) {
   var options = {
     // As we want to show quite some markers on the map, this is now set to 100.
     // If the markers and events in the list are pulled of different API calls this could be set to 10
