@@ -64,7 +64,8 @@ angular.module('c42-ionic.controllers', [])
           this.map.getBounds().getSouthWest().lng()
         ]
       ];
-      options.geo_polygons = encodeURIComponent("["+polyline.encode(bounds)+"]");
+      options.offset = 0;
+      options.geo_polygons = "["+polyline.encode(bounds)+"]";
     }
   };
   // @TODO: Add this to the resolve in the way that is filtered before of being rendered
