@@ -65,8 +65,17 @@ $ ionic serve
 
 Your browser should open and start the example in the url: `http://localhost:8100/`
 
+### Screenshots
+
+<img src="screenshots/Screenshot_2.png" width="300">
+<img src="screenshots/Screenshot_1.png" width="300">
+
+> Here how it should look once it is everything properly set up.
+
+### More
+
 For all information related to **c42 API** check out [the c42 docs](http://docs.calendar42.com/) and the [swaggerAPI interface](https://dev02.calendar42.com/app/django/api/docs/).
 
 For more information about how to run and build your app in devices, generate the app to install check out how top [build/run](https://github.com/driftyco/ionic-cli#building-your-app).
 
-> This project makes use of the [open-api](https://github.com/comlaterra/open-api-js) swagger consumer. An open source prototype designed to help the communication between client and server for API's that provides of a swagger interface.
+> This project makes use of the [open-api-js](https://github.com/comlaterra/open-api-js) consumer. An open source prototype designed to help the communication between client and server for API's that provides of a interface.
